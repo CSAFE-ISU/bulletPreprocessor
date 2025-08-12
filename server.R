@@ -38,66 +38,66 @@ make_land_card <- function(id = "land_scan", land_name = NULL) {
 server <- function(input, output) {
 
   # Reactive object to store bullet data ----
-  bullet_data <- reactiveValues(
+  land_data <- reactiveValues(
     barrel_name = NULL,
     bullet_name = NULL,
     land_name = NULL
   )
   
   # Read bullet ----
-  bullet <- reactive({
+  land <- reactive({
     # Delete temp directory if it already exists
-    bullet_dir <- file.path(tempdir(), "bullet")
-    unlink(bullet_dir, recursive = TRUE)
+    land_dir <- file.path(tempdir(), "land")
+    unlink(land_dir, recursive = TRUE)
     
     # Create temp directory and save land in it
-    dir.create(bullet_dir, showWarnings = FALSE)
+    dir.create(land_dir, showWarnings = FALSE)
     file.copy(
-      input$bullet_upload$datapath, 
-      file.path(bullet_dir, input$bullet_upload$name)
+      input$land_upload$datapath, 
+      file.path(land_dir, input$land_upload$name)
     )
     
-    return(read_bullet(bullet_dir))
+    return(read_bullet(land_dir))
   })
   
   # Get land, bullet, and barrel names on upload ----
-  observeEvent(input$bullet_upload, {
-    bullet_data$barrel_name <- get_barrel_name(input$bullet_upload$name, study = "houston")
-    bullet_data$bullet_name <- get_bullet_name(input$bullet_upload$name)
-    bullet_data$land_name <- get_land_name(input$bullet_upload$name)
+  observeEvent(input$land_upload, {
+    land_data$barrel_name <- get_barrel_name(input$land_upload$name, study = "houston")
+    land_data$bullet_name <- get_bullet_name(input$land_upload$name)
+    land_data$land_name <- get_land_name(input$land_upload$name)
   })
   
   # Display barrel name ----
   output$barrel_name <- renderText({
-    req(bullet_data$barrel_name)
-    bullet_data$barrel_name
+    req(land_data$barrel_name)
+    land_data$barrel_name
   })
   
   # Display bullet name ----
   output$bullet_name <- renderText({
-    req(bullet_data$bullet_name) 
-    bullet_data$bullet_name
+    req(land_data$bullet_name) 
+    land_data$bullet_name
   })
   
   # Display land name ----
   output$land_name <- renderText({
-    req(bullet_data$land_name) 
-    bullet_data$land_name
+    req(land_data$land_name) 
+    land_data$land_name
   })
   
   # Display land ----
   output$land_display <- renderUI({
-    req(!is.null(input$bullet_upload))
+    req(!is.null(input$land_upload))
 
     # Render land
     local({
       output[["land_scan"]] <- renderRglwidget({
-        x3p_image(x3p_sample(bullet()$x3p[[1]], m=5), size=500, zoom=.4)
+        x3p_image(x3p_sample(land()$x3p[[1]], m=5), size=500, zoom=.4)
         rglwidget()
       })
     })
     
     # Format land display
-    make_land_card(id = "land_scan", land_name = bullet_data$land_name)
+    make_land_card(id = "land_scan", land_name = land_data$land_name)
   })
 }

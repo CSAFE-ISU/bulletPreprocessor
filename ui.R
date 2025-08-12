@@ -10,8 +10,7 @@ ui <- page_sidebar(
   sidebar = sidebar(
     
     # Upload bullet land ----
-    fileInput("bullet_upload", "Upload a land", accept = ".x3p", multiple = TRUE),
-    verbatimTextOutput("land_filepath"),
+    fileInput("land_upload", "Upload a land", accept = ".x3p", multiple = TRUE),
     textOutput("barrel_name"),
     textOutput("bullet_name"),
     textOutput("land_name")
