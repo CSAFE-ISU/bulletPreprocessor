@@ -30,7 +30,7 @@ make_land_card <- function(id = "land_scan", land_name = NULL) {
     card_header(class = "bg-dark", land_name),
     # max_height = 600,
     full_screen = TRUE,
-    rglwidgetOutput(id),
+    rglwidgetOutput(id, width = "auto"),
   )
 }
 
