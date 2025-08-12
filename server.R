@@ -71,16 +71,27 @@ server <- function(input, output) {
     land_data$bullet_name <- get_bullet_name(input$land_upload$name)
     land_data$land_name <- get_land_name(input$land_upload$name)
   })
-
+  
+  # Render land ----
   output$land_scan <- renderRglwidget({
     # Clear any existing RGL scenes
     rgl::clear3d()
     
-    x3p_image(x3p_sample(land()$x3p[[1]], m=5), size=500, zoom=.4)
+    if (is.null(land_data$crosscut)) {
+      land()$x3p[[1]] %>%
+        x3p_sample(m=5) %>%
+        x3p_image(size = 500, zoom=.4)
+    } else {
+      land()$x3p[[1]] %>%
+        x3p_add_hline(yintercept = land_data$crosscut, size = 20, color = "#eeeeee") %>%
+        x3p_sample(m=5) %>%
+        x3p_image(size = 500, zoom=.4)
+    }
+
     rglwidget()
   })
   
-  # Display land ----
+  # Display land in card ----
   output$land_display <- renderUI({
     req(!is.null(input$land_upload))
     make_land_card(id = "land_scan", 
@@ -88,4 +99,15 @@ server <- function(input, output) {
                    bullet_name = land_data$bullet_name,
                    land_name = land_data$land_name)
   })
+  
+  # Get default crosscut ----
+  observeEvent(input$crosscut, {
+    land_data$crosscut <- sapply(land()$x3p, x3p_crosscut_optimize, ylimits = c(150, NA))
+  })
+  
+  output$crosscut <- renderPrint({
+    req(land_data$crosscut)
+    land_data$crosscut
+  })
+  
 }

@@ -11,6 +11,13 @@ ui <- page_sidebar(
     
     # Upload bullet land ----
     fileInput("land_upload", "Upload a land", accept = ".x3p", multiple = TRUE),
+    accordion(
+      accordion_panel(
+        "Crosscut",
+        actionButton("crosscut", "Get default crosscut"),
+        verbatimTextOutput("crosscut")
+      )
+    )
     
   ),
   
