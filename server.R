@@ -28,10 +28,12 @@ get_houston_barrel_name <- function(filename) {
 }
 
 # Render RGL Widget UI ----
-make_land_card <- function(id = "land_scan", land_name = NULL) {
+make_land_card <- function(id = "land_scan", 
+                           barrel_name = NULL,
+                           bullet_name = NULL,
+                           land_name = NULL) {
   card(
-    card_header(class = "bg-dark", land_name),
-    # max_height = 600,
+    card_header(class = "bg-dark", paste(barrel_name, bullet_name, land_name)),
     full_screen = TRUE,
     rglwidgetOutput(id, width = "auto"),
   )
@@ -69,25 +71,7 @@ server <- function(input, output) {
     land_data$bullet_name <- get_bullet_name(input$land_upload$name)
     land_data$land_name <- get_land_name(input$land_upload$name)
   })
-  
-  # Display barrel name ----
-  output$barrel_name <- renderText({
-    req(land_data$barrel_name)
-    land_data$barrel_name
-  })
-  
-  # Display bullet name ----
-  output$bullet_name <- renderText({
-    req(land_data$bullet_name) 
-    land_data$bullet_name
-  })
-  
-  # Display land name ----
-  output$land_name <- renderText({
-    req(land_data$land_name) 
-    land_data$land_name
-  })
-  
+
   output$land_scan <- renderRglwidget({
     # Clear any existing RGL scenes
     rgl::clear3d()
@@ -99,6 +83,9 @@ server <- function(input, output) {
   # Display land ----
   output$land_display <- renderUI({
     req(!is.null(input$land_upload))
-    make_land_card(id = "land_scan", land_name = land_data$land_name)
+    make_land_card(id = "land_scan", 
+                   barrel_name = land_data$barrel_name, 
+                   bullet_name = land_data$bullet_name,
+                   land_name = land_data$land_name)
   })
 }

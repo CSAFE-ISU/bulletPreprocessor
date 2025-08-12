@@ -11,9 +11,6 @@ ui <- page_sidebar(
     
     # Upload bullet land ----
     fileInput("land_upload", "Upload a land", accept = ".x3p", multiple = TRUE),
-    textOutput("barrel_name"),
-    textOutput("bullet_name"),
-    textOutput("land_name")
     
   ),
   
