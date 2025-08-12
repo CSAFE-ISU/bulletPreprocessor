@@ -39,9 +39,9 @@ make_land_card <- function(land_id,
   )
 }
 
-make_table_card <- function(table_id) {
+make_table_card <- function(table_id, header_title) {
   card(
-    card_header(class = "bg-dark", "Crosscut Data (First Six Rows)"),
+    card_header(class = "bg-dark", header_title),
     full_screen = TRUE,
     tableOutput(table_id),
   )
@@ -131,7 +131,7 @@ server <- function(input, output) {
     land_data$df$ccdata[[1]]
   })
 
-  # Display crosscut Slider ----
+  # Display crosscut slider ----
   output$crosscutUI <- renderUI({
     req(land_data$crosscut)
     
@@ -155,7 +155,7 @@ server <- function(input, output) {
   # Display crosscut table in card ----
   output$crosscut_table_display <- renderUI({
     req(!is.null(land_data$df) & "ccdata" %in% colnames(land_data$df))
-    make_table_card(table_id = "final_crosscut_df")
+    make_table_card(table_id = "final_crosscut_df", header_title = "Crosscut Data")
   })
   
 }

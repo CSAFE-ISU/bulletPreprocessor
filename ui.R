@@ -21,6 +21,10 @@ ui <- page_sidebar(
     
   ),
   
-  uiOutput("land_display"),
-  uiOutput("crosscut_table_display")
+  navset_card_underline(
+    title = "Visualizations",
+    nav_panel("Land with Crosscut", uiOutput("land_display")),
+    nav_panel("Crosscut Data", uiOutput("crosscut_table_display"))
+  )
+ 
 )
