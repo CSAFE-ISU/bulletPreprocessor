@@ -6,6 +6,9 @@ library(x3ptools)
 # Increase maximum upload size
 options(shiny.maxRequestSize = 150*1024^2)
 
+# Force RGL to use null device to prevent pop-ups
+options(rgl.useNULL = TRUE)
+
 get_land_name <- function(filename) {
   return(stringr::str_extract(filename, "Land \\d+"))
 }
@@ -85,19 +88,17 @@ server <- function(input, output) {
     land_data$land_name
   })
   
+  output$land_scan <- renderRglwidget({
+    # Clear any existing RGL scenes
+    rgl::clear3d()
+    
+    x3p_image(x3p_sample(land()$x3p[[1]], m=5), size=500, zoom=.4)
+    rglwidget()
+  })
+  
   # Display land ----
   output$land_display <- renderUI({
     req(!is.null(input$land_upload))
-
-    # Render land
-    local({
-      output[["land_scan"]] <- renderRglwidget({
-        x3p_image(x3p_sample(land()$x3p[[1]], m=5), size=500, zoom=.4)
-        rglwidget()
-      })
-    })
-    
-    # Format land display
     make_land_card(id = "land_scan", land_name = land_data$land_name)
   })
 }
