@@ -14,12 +14,13 @@ ui <- page_sidebar(
     accordion(
       accordion_panel(
         "Crosscut",
-        actionButton("crosscut", "Get default crosscut"),
-        verbatimTextOutput("crosscut")
+        actionButton("default_crosscut_button", "Get default crosscut"),
+        uiOutput("crosscutUI")
       )
     )
     
   ),
   
-  uiOutput("land_display")
+  uiOutput("land_display"),
+  uiOutput("crosscut_table_display")
 )
