@@ -8,15 +8,14 @@ ui <- page_sidebar(
   
   # Sidebar ----
   sidebar = sidebar(
-    # Input: Slider for the number of bins ----
-    sliderInput(
-      inputId = "bins",
-      label = "Number of bins:",
-      min = 1,
-      max = 50,
-      value = 30
-    )
+    
+    # Upload bullet land ----
+    fileInput("land_upload", "Upload a land", accept = ".x3p", multiple = FALSE),
+    verbatimTextOutput("land_filepath"),
+    textOutput("barrel_name"),
+    textOutput("bullet_name"),
+    textOutput("land_name")
+    
   ),
-  # Output: Histogram ----
-  plotOutput(outputId = "distPlot")
+
 )
