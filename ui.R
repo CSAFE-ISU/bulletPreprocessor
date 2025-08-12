@@ -3,9 +3,10 @@ library(bslib)
 
 # Define UI for app that draws a histogram ----
 ui <- page_sidebar(
-  # App title ----
-  title = "Hello Shiny!",
-  # Sidebar panel for inputs ----
+  
+  title = "BulletPreprocessor",
+  
+  # Sidebar ----
   sidebar = sidebar(
     # Input: Slider for the number of bins ----
     sliderInput(
