@@ -1,6 +1,6 @@
 crosscutUI <- function(id) {
   tagList(
-    actionButton(NS(id, "default_crosscut_button"), "Get default crosscut"),
+    actionButton(NS(id, "default_crosscut_button"), "Get crosscut"),
     uiOutput(NS(id, "crosscutUI"))
   )
 }

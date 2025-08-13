@@ -1,6 +1,6 @@
 groovesUI <- function(id) {
   tagList(
-    actionButton(NS(id, "default_grooves_button"), "Get default grooves")
+    actionButton(NS(id, "default_grooves_button"), "Get grooves")
   )
 }
 
@@ -22,7 +22,7 @@ groovesServer <- function(id, land_rv) {
         land_rv$crosscut_df <- lapply(land_rv$df$x3p, function(x) x3p_crosscut(x, y = land_rv$crosscut))
       }
       
-      # Use same argument values as bulletAnalyzr
+      # Get grooves ----
       land_rv$grooves <- cc_locate_grooves(
         land_rv$crosscut_df[[1]], 
         method = "middle", 
@@ -32,12 +32,6 @@ groovesServer <- function(id, land_rv) {
       land_rv$left_groove <- land_rv$grooves[[1]][1]
       land_rv$right_groove <- land_rv$grooves[[1]][2]
     })
-    
-    # # Display left groove value ----
-    # output$grooves_verbatim <- renderPrint({
-    #   req(land_rv$grooves)
-    #   land_rv$left_groove
-    # })
     
     # Plot grooves ----
     output$grooves <- renderPlot({
