@@ -1,5 +1,6 @@
 library(bslib)
 library(bulletxtrctr)
+library(dplyr)
 library(ggplot2)
 library(rgl)
 library(x3ptools)
@@ -40,6 +41,4 @@ server <- function(input, output) {
   # Grooves ----
   groovesServer("grooves1", land)
 
-  
-  
 }

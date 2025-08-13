@@ -6,7 +6,7 @@ groovesUI <- function(id) {
 
 groovesTabUI <- function(id) {
   tagList(
-    verbatimTextOutput(NS(id, "grooves_verbatim"))
+    plotOutput(NS(id, "grooves"))
   )
 }
 
@@ -15,9 +15,16 @@ groovesServer <- function(id, land_rv) {
     
     # Get default grooves ----
     observeEvent(input$default_grooves_button, {
+      
+      # Take crosscut ----
+      if (is.null(land_rv$crosscut_df)) {
+        req(land_rv$crosscut)  # Make sure crosscut exists
+        land_rv$crosscut_df <- lapply(land_rv$df$x3p, function(x) x3p_crosscut(x, y = land_rv$crosscut))
+      }
+      
       # Use same argument values as bulletAnalyzr
       land_rv$grooves <- cc_locate_grooves(
-        land_rv$df$ccdata[[1]], 
+        land_rv$crosscut_df[[1]], 
         method = "middle", 
         adjust = 30, 
         return_plot = FALSE
@@ -26,10 +33,17 @@ groovesServer <- function(id, land_rv) {
       land_rv$right_groove <- land_rv$grooves[[1]][2]
     })
     
-    # Display left groove value ----
-    output$grooves_verbatim <- renderPrint({
+    # # Display left groove value ----
+    # output$grooves_verbatim <- renderPrint({
+    #   req(land_rv$grooves)
+    #   land_rv$left_groove
+    # })
+    
+    # Plot grooves ----
+    output$grooves <- renderPlot({
+      req(land_rv$crosscut_df)
       req(land_rv$grooves)
-      land_rv$left_groove
+      plot_grooves(land_rv$crosscut_df[[1]], land_rv$grooves[[1]])
     })
     
   })

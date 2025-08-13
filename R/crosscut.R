@@ -18,12 +18,6 @@ crosscutServer <- function(id, land_rv) {
       land_rv$crosscut <- input$crosscut_slider
     })
     
-    # Store crosscut data ----
-    observeEvent(input$finalize_crosscut_button, {
-      # Use lapply to place crosscut data frame in a list so it can be assigned to a column
-      land_rv$df$ccdata <- lapply(land_rv$df$x3p, function(x) x3p_crosscut(x, y = land_rv$crosscut))
-    })
-    
     # Display crosscut slider ----
     output$crosscutUI <- renderUI({
       req(land_rv$crosscut)
@@ -40,9 +34,7 @@ crosscutServer <- function(id, land_rv) {
           min = 0, 
           max = land_rv$x3p_dims[2], 
           value = land_rv$crosscut
-        ),
-        actionButton(inputId = session$ns("finalize_crosscut_button"), 
-                     label = "Finalize crosscut")
+        )
       )
     })
     

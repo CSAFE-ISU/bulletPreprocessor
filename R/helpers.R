@@ -16,7 +16,7 @@ get_houston_barrel_name <- function(filename) {
   return(stringr::str_extract(filename, "\\b[A-Z]+(?=\\s+Bullet)"))
 }
 
-groove_plot <- function(ccdata, grooves) {
+plot_grooves <- function(ccdata, grooves) {
   ccdata %>% 
     ggplot(aes(x = x, y = value)) + 
     #    theme_bw()+
