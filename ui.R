@@ -1,6 +1,10 @@
 library(shiny)
 library(bslib)
 
+source("R/land-scan.R")
+source("R/upload.R")
+
+
 # Define UI for app that draws a histogram ----
 ui <- page_sidebar(
   
@@ -10,12 +14,16 @@ ui <- page_sidebar(
   sidebar = sidebar(
     
     # Upload bullet land ----
-    fileInput("land_upload", "Upload a land", accept = ".x3p", multiple = TRUE),
+    uploadUI("upload1"),
     accordion(
       accordion_panel(
         "Crosscut",
         actionButton("default_crosscut_button", "Get default crosscut"),
         uiOutput("crosscutUI")
+      ),
+      accordion_panel(
+        "Grooves",
+        actionButton("default_grooves_button", "Get default grooves"),
       )
     )
     
@@ -23,8 +31,9 @@ ui <- page_sidebar(
   
   navset_card_underline(
     title = "Visualizations",
-    nav_panel("Land with Crosscut", uiOutput("land_display")),
-    nav_panel("Crosscut Data", uiOutput("crosscut_table_display"))
+    nav_panel("Land with Crosscut", landScanUI("land_scan1")),
+    nav_panel("Crosscut Data", uiOutput("crosscut_table_display")),
+    nav_panel("Grooves", verbatimTextOutput("grooves_verbatim"))
   )
  
 )
