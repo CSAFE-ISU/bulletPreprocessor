@@ -10,7 +10,7 @@ groovesTabUI <- function(id) {
   )
 }
 
-groovesServer <- function(id, land_rv, buttons_rv) {
+groovesServer <- function(id, land_rv, buttons_rv, main_session = NULL) {
   moduleServer(id, function(input, output, session) {
     
     # Disable grooves button when app starts
@@ -41,6 +41,11 @@ groovesServer <- function(id, land_rv, buttons_rv) {
         adjust = 30, 
         return_plot = FALSE
       )
+      
+      # Switch to grooves tab after calculating grooves
+      if (!is.null(main_session)) {
+        nav_select(session = main_session, "main_tabs", selected = "Grooves")
+      }
     })
     
     # Plot grooves ----

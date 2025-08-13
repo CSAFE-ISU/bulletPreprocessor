@@ -33,6 +33,7 @@ ui <- page_sidebar(
   
   navset_card_underline(
     title = "Visualizations",
+    id = "main_tabs",
     nav_panel("Land with Crosscut", landScanUI("land_scan1")),
     nav_panel("Grooves", groovesTabUI("grooves1"))
   )

@@ -19,7 +19,7 @@ options(rgl.useNULL = TRUE)
 
 
 # Server ----
-server <- function(input, output) {
+server <- function(input, output, session) {
   
   # Reactive object to store bullet data ----
   land <- reactiveValues(
@@ -45,6 +45,6 @@ server <- function(input, output) {
   crosscutServer("crosscut1", land, buttons)
   
   # Grooves ----
-  groovesServer("grooves1", land, buttons)
+  groovesServer("grooves1", land, buttons, main_session = session)
 
 }
