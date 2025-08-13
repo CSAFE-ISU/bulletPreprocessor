@@ -31,24 +31,15 @@ server <- function(input, output) {
   # Read bullet ----
   uploadServer("upload1", land)
 
-  # Render land ----
+  # Display land ----
   landScanServer("land_scan1", land) 
   
   # Crosscut ----
   crosscutServer("crosscut1", land)
   
-  # Get default grooves ----
-  observeEvent(input$default_grooves_button, {
-    land$grooves <- cc_locate_grooves(land$df$ccdata[[1]], method = "middle", adjust = 30, return_plot = FALSE)
-    land$left_groove <- land$grooves[[1]][1]
-    land$right_groove <- land$grooves[[1]][2]
-  })
-  
-  # 
-  output$grooves_verbatim <- renderPrint({
-    req(land$grooves)
-    land$left_groove
-  })
+  # Grooves ----
+  groovesServer("grooves1", land)
+
   
   
 }

@@ -22,7 +22,7 @@ ui <- page_sidebar(
       ),
       accordion_panel(
         "Grooves",
-        actionButton("default_grooves_button", "Get default grooves"),
+        groovesUI("grooves1"),
       )
     )
     
@@ -31,7 +31,7 @@ ui <- page_sidebar(
   navset_card_underline(
     title = "Visualizations",
     nav_panel("Land with Crosscut", landScanUI("land_scan1")),
-    nav_panel("Grooves", verbatimTextOutput("grooves_verbatim"))
+    nav_panel("Grooves", groovesTabUI("grooves1"))
   )
  
 )
