@@ -4,7 +4,7 @@ uploadUI <- function(id) {
   )
 }
 
-uploadServer <- function(id, land_rv) {
+uploadServer <- function(id, land_rv, buttons_rv) {
   moduleServer(id, function(input, output, session) {
     observeEvent(input$land_upload, {
       # Delete temp directory if it already exists
@@ -21,6 +21,9 @@ uploadServer <- function(id, land_rv) {
       land_rv$barrel_name <- get_barrel_name(input$land_upload$name, study = "houston")
       land_rv$bullet_name <- get_bullet_name(input$land_upload$name)
       land_rv$land_name <- get_land_name(input$land_upload$name)
+      
+      # Enable crosscut button
+      buttons_rv$crosscut <- TRUE
     })
   })
 }

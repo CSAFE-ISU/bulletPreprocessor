@@ -3,6 +3,7 @@ library(bulletxtrctr)
 library(dplyr)
 library(ggplot2)
 library(rgl)
+library(shinyjs)
 library(x3ptools)
 
 source("R/helpers.R")
@@ -29,16 +30,21 @@ server <- function(input, output) {
     crosscut = NULL
   )
   
+  buttons <- reactiveValues(
+    crosscut = FALSE,
+    grooves = FALSE
+  )
+  
   # Read bullet ----
-  uploadServer("upload1", land)
+  uploadServer("upload1", land, buttons)
 
   # Display land ----
   landScanServer("land_scan1", land) 
   
   # Crosscut ----
-  crosscutServer("crosscut1", land)
+  crosscutServer("crosscut1", land, buttons)
   
   # Grooves ----
-  groovesServer("grooves1", land)
+  groovesServer("grooves1", land, buttons)
 
 }

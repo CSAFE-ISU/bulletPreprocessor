@@ -1,5 +1,6 @@
-library(shiny)
 library(bslib)
+library(shiny)
+library(shinyjs)
 
 source("R/land-scan.R")
 source("R/upload.R")
@@ -7,6 +8,8 @@ source("R/upload.R")
 
 # Define UI for app that draws a histogram ----
 ui <- page_sidebar(
+  
+  useShinyjs(),
   
   title = "BulletPreprocessor",
   

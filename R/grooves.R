@@ -1,6 +1,6 @@
 groovesUI <- function(id) {
   tagList(
-    actionButton(NS(id, "default_grooves_button"), "Get grooves")
+    actionButton(NS(id, "grooves_button"), "Get grooves")
   )
 }
 
@@ -10,11 +10,23 @@ groovesTabUI <- function(id) {
   )
 }
 
-groovesServer <- function(id, land_rv) {
+groovesServer <- function(id, land_rv, buttons_rv) {
   moduleServer(id, function(input, output, session) {
     
+    # Disable grooves button when app starts
+    disable("grooves_button")
+    
+    # Switch the grooves button on or off
+    observe({
+      if (buttons_rv$grooves) {
+        enable("grooves_button")
+      } else {
+        disable("grooves_button")
+      }
+    })
+    
     # Get default grooves ----
-    observeEvent(input$default_grooves_button, {
+    observeEvent(input$grooves_button, {
       
       # Take crosscut ----
       if (is.null(land_rv$crosscut_df)) {
@@ -29,14 +41,10 @@ groovesServer <- function(id, land_rv) {
         adjust = 30, 
         return_plot = FALSE
       )
-      land_rv$left_groove <- land_rv$grooves[[1]][1]
-      land_rv$right_groove <- land_rv$grooves[[1]][2]
     })
     
     # Plot grooves ----
     output$grooves <- renderPlot({
-      req(land_rv$crosscut_df)
-      req(land_rv$grooves)
       plot_grooves(land_rv$crosscut_df[[1]], land_rv$grooves[[1]])
     })
     
