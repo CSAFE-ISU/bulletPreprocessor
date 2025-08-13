@@ -18,8 +18,7 @@ ui <- page_sidebar(
     accordion(
       accordion_panel(
         "Crosscut",
-        actionButton("default_crosscut_button", "Get default crosscut"),
-        uiOutput("crosscutUI")
+        crosscutUI("crosscut1")
       ),
       accordion_panel(
         "Grooves",
@@ -32,7 +31,6 @@ ui <- page_sidebar(
   navset_card_underline(
     title = "Visualizations",
     nav_panel("Land with Crosscut", landScanUI("land_scan1")),
-    nav_panel("Crosscut Data", uiOutput("crosscut_table_display")),
     nav_panel("Grooves", verbatimTextOutput("grooves_verbatim"))
   )
  
