@@ -41,19 +41,28 @@ groovesServer <- function(id, land_rv, buttons_rv, main_session = NULL) {
       # Get grooves ----
       # Store left and right grooves individually to make them easier to update
       # in the sliders module
-      grooves <- cc_locate_grooves(
+      land_rv$grooves <- cc_locate_grooves(
         land_rv$crosscut_df[[1]], 
         method = "middle", 
         adjust = 30, 
         return_plot = FALSE
       )
-      land_rv$left_groove <- grooves[[1]][1]
-      land_rv$right_groove <- grooves[[1]][2]
+      land_rv$left_groove <- land_rv$grooves[[1]][1]
+      land_rv$right_groove <- land_rv$grooves[[1]][2]
       
       # Switch to grooves tab after calculating grooves ----
       if (!is.null(main_session)) {
         nav_select(session = main_session, "main_tabs", selected = "Grooves")
       }
+    })
+    
+    # Update land_rv$grooves. left_groove and right_groove are updated by
+    # sliders module, but land_rv$grooves is not.
+    observe({
+      req(land_rv$left_groove)
+      req(land_rv$right_groove)
+      land_rv$grooves[[1]][1] <- land_rv$left_groove
+      land_rv$grooves[[1]][2] <- land_rv$right_groove
     })
     
     # Left and right groove sliders ----

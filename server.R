@@ -3,13 +3,16 @@ library(bulletxtrctr)
 library(dplyr)
 library(ggplot2)
 library(rgl)
+library(shinyFiles)
 library(shinyjs)
+library(stringr)
 library(x3ptools)
 
 source("R/crosscut.R")
 source("R/display.R")
 source("R/grooves.R")
 source("R/land-scan.R")
+source("R/signal.R")
 source("R/sliders.R")
 source("R/upload.R")
 
@@ -53,5 +56,8 @@ server <- function(input, output, session) {
   
   # Grooves ----
   groovesServer("grooves1", land, buttons, main_session = session)
+  
+  # Download ----
+  signalServer("signal1", land)
 
 }

@@ -1,11 +1,13 @@
 library(bslib)
 library(shiny)
+library(shinyFiles)
 library(shinyjs)
 
 source("R/crosscut.R")
 source("R/display.R")
 source("R/grooves.R")
 source("R/land-scan.R")
+source("R/signal.R")
 source("R/sliders.R")
 source("R/upload.R")
 
@@ -32,6 +34,10 @@ ui <- page_sidebar(
       accordion_panel(
         "Grooves",
         groovesUI("grooves1"),
+      ),
+      accordion_panel(
+        "Signal",
+        signalUI("signal1")
       )
     )
     
@@ -41,7 +47,8 @@ ui <- page_sidebar(
     title = "Visualizations",
     id = "main_tabs",
     nav_panel("Land with Crosscut", landScanUI("land_scan1")),
-    nav_panel("Grooves", groovesTabUI("grooves1"))
+    nav_panel("Grooves", groovesTabUI("grooves1")),
+    nav_panel("Signal", signalTabUI("signal1"))
   )
  
 )
