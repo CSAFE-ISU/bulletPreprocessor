@@ -54,6 +54,9 @@ groovesServer <- function(id, land_rv, buttons_rv, main_session = NULL) {
       if (!is.null(main_session)) {
         nav_select(session = main_session, "main_tabs", selected = "Grooves")
       }
+      
+      # Enable signal button
+      buttons_rv$signal <- TRUE
     })
     
     # Update land_rv$grooves. left_groove and right_groove are updated by

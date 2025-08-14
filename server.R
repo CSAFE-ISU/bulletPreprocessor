@@ -42,7 +42,8 @@ server <- function(input, output, session) {
   # Reactive object to store button status: TRUE = on, FALSE = OFF ----
   buttons <- reactiveValues(
     crosscut = FALSE,
-    grooves = FALSE
+    grooves = FALSE,
+    signal = FALSE
   )
   
   # Load land ----
@@ -58,6 +59,6 @@ server <- function(input, output, session) {
   groovesServer("grooves1", land, buttons, main_session = session)
   
   # Download ----
-  signalServer("signal1", land)
+  signalServer("signal1", land, buttons, main_session = session)
 
 }

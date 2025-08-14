@@ -15,8 +15,20 @@ signalTabUI <- function(id) {
   )
 }
 
-signalServer <- function(id, land_rv) {
+signalServer <- function(id, land_rv, buttons_rv, main_session = NULL) {
   moduleServer(id, function(input, output, session) {
+    
+    # Disable button when app starts ----
+    disable("signal_button")
+    
+    # Switch the button on or off ----
+    observe({
+      if (buttons_rv$signal) {
+        enable("signal_button")
+      } else {
+        disable("signal_button")
+      }
+    })
     
     # Get signal in data frame ----
     observeEvent(input$signal_button, {
@@ -48,6 +60,11 @@ signalServer <- function(id, land_rv) {
 
       land_rv$df <- NULL
       land_rv$df <- df
+      
+      # Switch to signal tab after extracting signal ----
+      if (!is.null(main_session)) {
+        nav_select(session = main_session, "main_tabs", selected = "Signal")
+      }
     })
     
     output$signal_df <- DT::renderDT({
