@@ -16,11 +16,11 @@ get_houston_barrel_name <- function(filename) {
   return(stringr::str_extract(filename, "\\b[A-Z]+(?=\\s+Bullet)"))
 }
 
-plot_grooves <- function(ccdata, grooves) {
+plot_grooves <- function(ccdata, left_groove, right_groove) {
   ccdata %>% 
     ggplot(aes(x = x, y = value)) + 
-    geom_vline(xintercept = grooves[1], color = "orange") +
-    geom_vline(xintercept = grooves[2], color = "orange") +
+    geom_vline(xintercept = left_groove, color = "orange") +
+    geom_vline(xintercept = right_groove, color = "orange") +
     geom_line(linewidth = .5) +
     xlim(min(ccdata$x, na.rm = TRUE), max(ccdata$x, na.rm = TRUE)) +
     xlab("Position along width of Land [µm]") +

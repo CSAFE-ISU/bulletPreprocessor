@@ -1,7 +1,7 @@
 crosscutUI <- function(id) {
   tagList(
     actionButton(NS(id, "crosscut_button"), "Get crosscut"),
-    uiOutput(NS(id, "crosscutUI"))
+    slidersUI(NS(id, "crosscut_slider"))
   )
 }
 
@@ -29,29 +29,16 @@ crosscutServer <- function(id, land_rv, buttons_rv) {
       buttons_rv$grooves <- TRUE
     })
     
-    # Update crosscut on land display with slider ----
-    observeEvent(input$crosscut_slider, {
-      land_rv$crosscut <- input$crosscut_slider
-    })
-    
     # Display crosscut slider ----
-    output$crosscutUI <- renderUI({
-      req(land_rv$df)
-      req(land_rv$crosscut)
-      
-      # Store land dimensions
-      land_rv$x3p_dims <- dim(land_rv$df$x3p[[1]])
-      
-      # renderUI requires tagList to render multiple inputs
-      tagList(
-        br(),
-        sliderInput(
-          inputId = session$ns("crosscut_slider"), # Important: use session$ns() to namespace the ID" 
-          label = "Crosscut location",
-          min = 0, 
-          max = land_rv$x3p_dims[2], 
-          value = land_rv$crosscut
-        )
+    observe({
+      req(land_rv$x3p_dims) 
+      req(land_rv$crosscut)  
+      slidersServer(
+        id = "crosscut_slider", 
+        land_rv = land_rv,
+        arg_name = "crosscut", 
+        label = "Crosscut",
+        max_value = land_rv$x3p_dims[2]
       )
     })
     

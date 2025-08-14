@@ -6,8 +6,11 @@ library(rgl)
 library(shinyjs)
 library(x3ptools)
 
-source("R/helpers.R")
+source("R/crosscut.R")
+source("R/display.R")
+source("R/grooves.R")
 source("R/land-scan.R")
+source("R/sliders.R")
 source("R/upload.R")
 
 
