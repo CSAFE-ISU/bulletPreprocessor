@@ -61,18 +61,48 @@ groovesServer <- function(id, land_rv, buttons_rv, main_session = NULL) {
       land_rv$grooves[[1]][1] <- input$grooves_left_slider
     })
     
+    # Left groove decrease button ----
+    observeEvent(input$grooves_left_decrease, {
+      current_val <- input$grooves_left_slider
+      new_val <- max(0, current_val - 1)  # Ensure we don't go below minimum
+      updateSliderInput(session, "grooves_left_slider", value = new_val)
+    })
+    
+    # Left groove increment button ----
+    observeEvent(input$grooves_left_increase, {
+      current_val <- input$grooves_left_slider
+      max_val <- floor(max(land_rv$crosscut_df[[1]]$x, na.rm = TRUE))
+      new_val <- min(max_val, current_val + 1)  # Ensure we don't go above maximum
+      updateSliderInput(session, "grooves_left_slider", value = new_val)
+    })
+    
     # Update right groove location
     observeEvent(input$grooves_right_slider, {
       land_rv$grooves[[1]][2] <- input$grooves_right_slider
     })
     
-    # Display left groove slider ----
+    # Display groove sliders ----
     output$groovesLeftUI <- renderUI({
       req(land_rv$grooves)
       
       # renderUI requires tagList to render multiple inputs
       tagList(
         br(),
+        # Left groove controls
+        p(strong("Left groove location")),
+        div(
+          style = "text-align: center; margin-bottom: 10px;",
+          actionButton(
+            session$ns("grooves_left_decrease"), 
+            "-", 
+            style = "margin-right: 10px; width: 40px;"
+          ),
+          actionButton(
+            session$ns("grooves_left_increase"), 
+            "+", 
+            style = "width: 40px;"
+          )
+        ),
         sliderInput(
           inputId = session$ns("grooves_left_slider"), # Important: use session$ns() to namespace the ID" 
           label = "Left groove location",
@@ -90,6 +120,7 @@ groovesServer <- function(id, land_rv, buttons_rv, main_session = NULL) {
       )
     })
     
+    # Display left and right groove values ----
     observe({
       req(land_rv$grooves)
       displayPrintServer("left_groove", value = land_rv$grooves[[1]][1], label = "Left groove")

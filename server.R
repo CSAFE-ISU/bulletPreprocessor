@@ -11,7 +11,7 @@ source("R/land-scan.R")
 source("R/upload.R")
 
 
-# Increase maximum upload size
+# Increase maximum file upload size
 options(shiny.maxRequestSize = 150*1024^2)
 
 # Force RGL to use null device to prevent pop-ups
@@ -21,21 +21,25 @@ options(rgl.useNULL = TRUE)
 # Server ----
 server <- function(input, output, session) {
   
-  # Reactive object to store bullet data ----
+  # Reactive object to store land data ----
   land <- reactiveValues(
-    df = NULL,
     barrel_name = NULL,
     bullet_name = NULL,
+    crosscut = NULL,
+    crosscut_df = NULL,
+    df = NULL,
+    grooves = NULL,
     land_name = NULL,
-    crosscut = NULL
+    x3p_dims = NULL
   )
   
+  # Reactive object to store button status: TRUE = on, FALSE = OFF ----
   buttons <- reactiveValues(
     crosscut = FALSE,
     grooves = FALSE
   )
   
-  # Read bullet ----
+  # Load land ----
   uploadServer("upload1", land, buttons)
 
   # Display land ----
