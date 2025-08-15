@@ -39,9 +39,9 @@ landScanServer <- function(id, land_rv) {
       req(!is.null(land_rv$df))
       make_land_card(
         land_id = session$ns("land_scan"), # Important: use session$ns() to namespace the ID
-        barrel_name = land_rv$barrel_name, 
-        bullet_name = land_rv$bullet_name,
-        land_name = land_rv$land_name
+        barrel_name = land_rv$barrel, 
+        bullet_name = land_rv$bullet,
+        land_name = land_rv$land
       )
     })
     

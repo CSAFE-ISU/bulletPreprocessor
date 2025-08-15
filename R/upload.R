@@ -18,9 +18,9 @@ uploadServer <- function(id, land_rv, buttons_rv) {
         file.path(land_dir, input$land_upload$name)
       )
       land_rv$df <- read_bullet(land_dir)
-      land_rv$barrel_name <- get_barrel_name(input$land_upload$name, study = "houston")
-      land_rv$bullet_name <- get_bullet_name(input$land_upload$name)
-      land_rv$land_name <- get_land_name(input$land_upload$name)
+      land_rv$barrel <- get_barrel_name(input$land_upload$name, study = "houston")
+      land_rv$bullet <- get_bullet_name(input$land_upload$name)
+      land_rv$land <- get_land_name(input$land_upload$name)
       land_rv$x3p_dims <- dim(land_rv$df$x3p[[1]])
         
       # Enable crosscut button

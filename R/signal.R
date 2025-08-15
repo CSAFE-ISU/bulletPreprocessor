@@ -38,14 +38,14 @@ signalServer <- function(id, land_rv, buttons_rv, main_session = NULL) {
       df <- data.frame(
         study = input$study,
         folder = NA,
-        barrel = ifelse(str_detect(land_rv$barrel_name, "^Barrel"), land_rv$barrel_name, paste("Barrel", land_rv$barrel_name)),
-        bullet = land_rv$bullet_name,
-        land = land_rv$land_name,
+        barrel = ifelse(str_detect(land_rv$barrel, "^Barrel"), land_rv$barrel, paste("Barrel", land_rv$barrel)),
+        bullet = land_rv$bullet,
+        land = land_rv$land,
         source = NA
       )
       df$resolution <- sapply(land_rv$df$x3p, function(x) x3ptools::x3p_get_scale(x))
       df$crosscut <- land_rv$crosscut
-      df$ccdata <- land_rv$crosscut_df
+      df$ccdata <- land_rv$ccdata
       df$grooves <- list(groove = land_rv$grooves)  # this format is required by cc_get_signature()
       
       # Get signal ----

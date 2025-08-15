@@ -29,14 +29,19 @@ server <- function(input, output, session) {
   
   # Reactive object to store land data ----
   land <- reactiveValues(
-    barrel_name = NULL,
-    bullet_name = NULL,
-    crosscut = NULL,
-    crosscut_df = NULL,
-    df = NULL,
-    grooves = NULL,
-    land_name = NULL,
-    x3p_dims = NULL
+    barrel = NULL,  # barrel name
+    bullet = NULL,  # bullet name
+    crosscut = NULL,  # crosscut y value
+    ccdata = NULL,  # data frame of crosscut x-y coordinates and surface height
+    df = NULL,  # data frame of source and x3p from read_bullet()
+    folder = NULL,  # filepath to bullet folder in bullet_replicate_results. Will always be NULL in app because filepath is to temp directory.
+    grooves = NULL,  # named vector of left and right groove x values
+    land = NULL,  # land name
+    resolution = NULL,  # resolution of x3p scan
+    source = NULL,  # filepath of x3p file in bullet_replicate_results. Will always be NULL in app because filepath is to temp directory.
+    study = NULL,  # name of bullet study
+    x3p_dims = NULL,  # dimensions of x3p
+    sigs = NULL  # data frame of signal info
   )
   
   # Reactive object to store button status: TRUE = on, FALSE = OFF ----
