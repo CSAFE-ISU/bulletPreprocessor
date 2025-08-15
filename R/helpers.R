@@ -1,7 +1,16 @@
 get_barrel_name <- function(filename, study) {
+  
+  # Get barrel name based on bullet study
   if (study == "houston") {
-    return(get_houston_barrel_name(filename))
+    barrel <- get_houston_barrel_name(filename)
+  } else {
+    stop("Barrel name not defined for study yet")
   }
+  
+  # Add "Barrel" to beginning of name if needed
+  barrel <- ifelse(str_detect(barrel, "^Barrel"), barrel, paste("Barrel", barrel))
+  
+  return(barrel)
 }
 
 get_bullet_name <- function(filename) {
