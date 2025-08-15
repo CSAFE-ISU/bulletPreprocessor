@@ -33,33 +33,17 @@ signalServer <- function(id, land_rv, buttons_rv, main_session = NULL) {
     
     # Get signal in data frame ----
     observeEvent(input$signal_button, {
-      
-      # Construct data frame to match format used in bulletxtrctr_replicate_results package ----
-      df <- data.frame(
-        study = input$study,
-        folder = NA,
-        barrel = ifelse(str_detect(land_rv$barrel, "^Barrel"), land_rv$barrel, paste("Barrel", land_rv$barrel)),
-        bullet = land_rv$bullet,
-        land = land_rv$land,
-        source = NA
-      )
-      df$resolution <- sapply(land_rv$df$x3p, function(x) x3ptools::x3p_get_scale(x))
-      df$crosscut <- land_rv$crosscut
-      df$ccdata <- land_rv$ccdata
-      df$grooves <- list(groove = land_rv$grooves)  # this format is required by cc_get_signature()
+
+      # Store study ----
+      land_rv$study <- input$study
       
       # Get signal ----
-      df <- df %>% dplyr::mutate(
-        sigs = purrr::map2(
-          .x = ccdata,
-          .y = grooves,
-          .f = function(x, y) {
-            bulletxtrctr::cc_get_signature(
-              ccdata = x, grooves = y, span1 = 0.75, span2 = 0.03)
-          })
+      land_rv$sigs <- bulletxtrctr::cc_get_signature(
+        ccdata = land_rv$ccdata, 
+        grooves = land_rv$grooves, 
+        span1 = 0.75, 
+        span2 = 0.03
       )
-
-      land_rv$df <- df
       
       # Switch to signal tab after extracting signal ----
       if (!is.null(main_session)) {
@@ -68,8 +52,8 @@ signalServer <- function(id, land_rv, buttons_rv, main_session = NULL) {
     })
     
     output$signal_plot <- renderPlot({
-      req(land_rv$df$sigs)
-      plot_signal(land_rv$df$sigs[[1]])
+      req(land_rv$sigs)
+      plot_signal(land_rv$sigs)
     })
     
     # output$signal_df <- DT::renderDT({

@@ -21,6 +21,7 @@ uploadServer <- function(id, land_rv, buttons_rv) {
       land_rv$barrel <- get_barrel_name(input$land_upload$name, study = "houston")
       land_rv$bullet <- get_bullet_name(input$land_upload$name)
       land_rv$land <- get_land_name(input$land_upload$name)
+      land_rv$resolution <- x3ptools::x3p_get_scale(land_rv$df$x3p[[1]])
       land_rv$x3p_dims <- dim(land_rv$df$x3p[[1]])
         
       # Enable crosscut button

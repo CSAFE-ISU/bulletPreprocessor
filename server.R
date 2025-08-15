@@ -38,10 +38,10 @@ server <- function(input, output, session) {
     grooves = NULL,  # named vector of left and right groove x values
     land = NULL,  # land name
     resolution = NULL,  # resolution of x3p scan
+    sigs = NULL,  # data frame of signal info
     source = NULL,  # filepath of x3p file in bullet_replicate_results. Will always be NULL in app because filepath is to temp directory.
     study = NULL,  # name of bullet study
-    x3p_dims = NULL,  # dimensions of x3p
-    sigs = NULL  # data frame of signal info
+    x3p_dims = NULL  # dimensions of x3p
   )
   
   # Reactive object to store button status: TRUE = on, FALSE = OFF ----
