@@ -11,7 +11,8 @@ signalUI <- function(id) {
 
 signalTabUI <- function(id) {
   tagList(
-    DT::DTOutput(NS(id, "signal_df"))
+    # DT::DTOutput(NS(id, "signal_df"))
+    plotOutput(NS(id, "signal_plot"))
   )
 }
 
@@ -45,7 +46,7 @@ signalServer <- function(id, land_rv, buttons_rv, main_session = NULL) {
       df$resolution <- sapply(land_rv$df$x3p, function(x) x3ptools::x3p_get_scale(x))
       df$crosscut <- land_rv$crosscut
       df$ccdata <- land_rv$crosscut_df
-      df$grooves <- list(groove = land_rv$grooves)  # this format required by cc_get_signature()
+      df$grooves <- list(groove = land_rv$grooves)  # this format is required by cc_get_signature()
       
       # Get signal ----
       df <- df %>% dplyr::mutate(
@@ -58,7 +59,6 @@ signalServer <- function(id, land_rv, buttons_rv, main_session = NULL) {
           })
       )
 
-      land_rv$df <- NULL
       land_rv$df <- df
       
       # Switch to signal tab after extracting signal ----
@@ -67,10 +67,15 @@ signalServer <- function(id, land_rv, buttons_rv, main_session = NULL) {
       }
     })
     
-    output$signal_df <- DT::renderDT({
+    output$signal_plot <- renderPlot({
       req(land_rv$df$sigs)
-      land_rv$df$sigs[[1]]
+      plot_signal(land_rv$df$sigs[[1]])
     })
+    
+    # output$signal_df <- DT::renderDT({
+    #   req(land_rv$df$sigs)
+    #   land_rv$df$sigs[[1]]
+    # })
     
   })
 }

@@ -28,7 +28,17 @@ plot_grooves <- function(ccdata, left_groove, right_groove) {
     theme_bw()
 }
 
-# Render RGL Widget UI ----
+plot_signal <- function(signal_df) {
+  signal_df %>% 
+    filter(!is.na(sig),!is.na(raw_sig)) %>%
+    ggplot(aes(x = x)) + 
+    geom_line(aes(y = raw_sig), colour = "grey70") +
+    geom_line(aes(y = sig), colour = "grey30") +
+    ylim(c(-5,5)) +
+    theme_bw() +
+    labs(y = "value")
+}
+
 make_land_card <- function(land_id, 
                            barrel_name = NULL,
                            bullet_name = NULL,
