@@ -23,7 +23,8 @@ crosscutServer <- function(id, land_rv, buttons_rv) {
     # Get default crosscut ----
     observeEvent(input$crosscut_button, {
       req(land_rv$df)
-      land_rv$crosscut <- land_rv$df$x3p[[1]] %>% x3p_crosscut_optimize(ylimits = c(150, NA))
+      land_rv$crosscut <- land_rv$df$x3p[[1]] %>% 
+        x3p_crosscut_optimize(ylimits = app_config$proc_params$crosscut_ylimits)
       
       # Enable grooves button
       buttons_rv$grooves <- TRUE

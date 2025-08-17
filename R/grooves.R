@@ -32,7 +32,7 @@ groovesServer <- function(id, land_rv, buttons_rv, main_session = NULL) {
       
       # Take crosscut ----
       if (is.null(land_rv$ccdata)) {
-        req(land_rv$crosscut)  # Make sure crosscut exists
+        req(land_rv$crosscut)
         land_rv$ccdata <- x3p_crosscut(x = land_rv$df$x3p[[1]], y = land_rv$crosscut)
       }
       
@@ -41,8 +41,8 @@ groovesServer <- function(id, land_rv, buttons_rv, main_session = NULL) {
       # in the sliders module
       land_rv$grooves <- cc_locate_grooves(
         land_rv$ccdata, 
-        method = "middle", 
-        adjust = 30, 
+        method = app_config$proc_params$grooves_method, 
+        adjust = app_config$proc_params$grooves_adjust, 
         return_plot = FALSE
       )
       land_rv$left_groove <- land_rv$grooves[[1]][1]

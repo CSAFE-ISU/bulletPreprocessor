@@ -17,8 +17,11 @@ displayPlotCardServer <- function(id, plot_reactive = NULL, header_title = NULL)
     output$plot_card <- renderUI({
       req(plot_reactive())
       card(
-        card_header(class = "bg-dark", header_title),
-        full_screen = TRUE,
+        card_header(
+          class = app_config$display_params$card_header_class, 
+          header_title = header_title
+        ),
+        full_screen = app_config$display_params$card_full_screen,
         plotOutput(session$ns("plot"))
       )
     })

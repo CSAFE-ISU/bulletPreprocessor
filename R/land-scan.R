@@ -12,8 +12,7 @@ landScanServer <- function(id, land_rv) {
     output$land_scan <- renderRglwidget({
       # Clear any existing RGL scenes
       rgl::clear3d()
-      
-      # Check if we have data to render
+    
       req(land_rv$df)
       req(nrow(land_rv$df) > 0)
       req(!is.null(land_rv$df$x3p))
@@ -22,13 +21,23 @@ landScanServer <- function(id, land_rv) {
       
       if (is.null(land_rv$crosscut)) {
         land_rv$df$x3p[[1]] %>%
-          x3p_sample(m=5) %>%
-          x3p_image(size = 500, zoom=.4)
+          x3p_sample(m=app_config$display_params$scan_sample_rate) %>%
+          x3p_image(
+            size = app_config$display_params$scan_size, 
+            zoom = app_config$display_params$scan_zoom
+          )
       } else {
         land_rv$df$x3p[[1]] %>%
-          x3p_add_hline(yintercept = land_rv$crosscut, size = 20, color = "#eeeeee") %>%
-          x3p_sample(m=5) %>%
-          x3p_image(size = 500, zoom=.4)
+          x3p_add_hline(
+            yintercept = land_rv$crosscut, 
+            size = 20, 
+            color = app_config$display_params$crosscut_color
+          ) %>%
+          x3p_sample(m=app_config$display_params$scan_sample_rate) %>%
+          x3p_image(
+            size = app_config$display_params$scan_size, 
+            zoom = app_config$display_params$scan_zoom
+          )
       }
       
       rglwidget()
@@ -37,11 +46,13 @@ landScanServer <- function(id, land_rv) {
     # Display land in card ----
     output$land_display <- renderUI({
       req(!is.null(land_rv$df))
-      make_land_card(
-        land_id = session$ns("land_scan"), # Important: use session$ns() to namespace the ID
-        barrel_name = land_rv$barrel, 
-        bullet_name = land_rv$bullet,
-        land_name = land_rv$land
+      card(
+        card_header(
+          class = app_config$display_params$card_header_class, 
+          paste(land_rv$barrel, land_rv$bullet, land_rv$land)
+        ),
+        full_screen = app_config$display_params$card_full_screen,
+        rglwidgetOutput(session$ns("land_scan"), width = "auto"),
       )
     })
     

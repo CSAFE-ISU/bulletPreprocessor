@@ -15,28 +15,28 @@ slidersServer <- function(id, land_rv, arg_name, label, max_value) {
     # Decrease button ----
     observeEvent(input$decrease_button, {
       current_val <- input$slider
-      new_val <- max(0, current_val - 1)  # Ensure we don't go below minimum
+      new_val <- max(0, current_val - app_config$ui_params$slider_step_size)  # Ensure we don't go below minimum
       updateSliderInput(session, "slider", value = new_val)
     })
     
-    # 10x decrease button ----
-    observeEvent(input$tenx_decrease_button, {
+    # Large decrease button ----
+    observeEvent(input$large_decrease_button, {
       current_val <- input$slider
-      new_val <- max(0, current_val - 10)  # Ensure we don't go below minimum
+      new_val <- max(0, current_val - app_config$ui_params$slider_large_step)  # Ensure we don't go below minimum
       updateSliderInput(session, "slider", value = new_val)
     })
     
     # Increase button ----
     observeEvent(input$increase_button, {
       current_val <- input$slider
-      new_val <- min(max_value, current_val + 1)  # Ensure we don't go above maximum
+      new_val <- min(max_value, current_val + app_config$ui_params$slider_step_size)  # Ensure we don't go above maximum
       updateSliderInput(session, "slider", value = new_val)
     })
     
-    # 10x increase button ----
-    observeEvent(input$tenx_increase_button, {
+    # Large increase button ----
+    observeEvent(input$large_increase_button, {
       current_val <- input$slider
-      new_val <- min(max_value, current_val + 10)  # Ensure we don't go above maximum
+      new_val <- min(max_value, current_val + app_config$ui_params$slider_large_step)  # Ensure we don't go above maximum
       updateSliderInput(session, "slider", value = new_val)
     })
     
@@ -54,10 +54,10 @@ slidersServer <- function(id, land_rv, arg_name, label, max_value) {
         ),
         div(
           style = "display: flex; justify-content: space-between; align-items: center;",
-          actionButton(session$ns("tenx_decrease_button"), "<<", class = "increase-decrease-button"),
+          actionButton(session$ns("large_decrease_button"), "<<", class = "increase-decrease-button"),
           actionButton(session$ns("decrease_button"), "<", class = "increase-decrease-button"),
           actionButton(session$ns("increase_button"), ">", class = "increase-decrease-button"),
-          actionButton(session$ns("tenx_increase_button"), ">>", class = "increase-decrease-button")
+          actionButton(session$ns("large_increase_button"), ">>", class = "increase-decrease-button")
         )
       )
     })

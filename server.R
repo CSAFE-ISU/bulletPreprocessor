@@ -8,6 +8,7 @@ library(shinyjs)
 library(stringr)
 library(x3ptools)
 
+source("R/config.R")
 source("R/crosscut.R")
 source("R/display.R")
 source("R/grooves.R")
@@ -18,10 +19,10 @@ source("R/upload.R")
 
 
 # Increase maximum file upload size
-options(shiny.maxRequestSize = 150*1024^2)
+options(shiny.maxRequestSize = app_config$file_params$max_file_size)
 
-# Force RGL to use null device to prevent pop-ups
-options(rgl.useNULL = TRUE)
+# TRUE prevents popups. FALSE allows popups.
+options(rgl.useNULL = app_config$display_params$rgl_popups_null)
 
 
 # Server ----
@@ -40,7 +41,7 @@ server <- function(input, output, session) {
     resolution = NULL,  # resolution of x3p scan
     sigs = NULL,  # data frame of signal info
     source = NULL,  # filepath of x3p file in bullet_replicate_results. Will always be NULL in app because filepath is to temp directory.
-    study = NULL,  # name of bullet study
+    study = app_config$ui_params$default_study,  # name of bullet study
     x3p_dims = NULL  # dimensions of x3p
   )
   
