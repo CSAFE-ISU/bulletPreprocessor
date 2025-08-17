@@ -40,6 +40,9 @@ signalServer <- function(id, land_rv, buttons_rv, main_session = NULL) {
       if (!is.null(main_session)) {
         nav_select(session = main_session, "main_tabs", selected = "Signal")
       }
+      
+      # Enable signal button
+      buttons_rv$downloadData <- TRUE
     })
     
     # Create reactive plot function ----

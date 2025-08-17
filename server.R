@@ -49,7 +49,8 @@ server <- function(input, output, session) {
   buttons <- reactiveValues(
     crosscut = FALSE,
     grooves = FALSE,
-    signal = FALSE
+    signal = FALSE,
+    download = FALSE
   )
   
   # Load land ----
@@ -64,7 +65,10 @@ server <- function(input, output, session) {
   # Grooves ----
   groovesServer("grooves1", land, buttons, main_session = session)
   
-  # Download ----
+  # Signal ----
   signalServer("signal1", land, buttons, main_session = session)
+  
+  # Download ----
+  downloadServer("download1", land, buttons)
 
 }
