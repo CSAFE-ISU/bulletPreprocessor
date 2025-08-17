@@ -7,7 +7,7 @@ uploadUI <- function(id) {
       selected = app_config$ui_params$default_study),
     fileInput(
       NS(id, "land_upload"), 
-      "Upload a land", 
+      "Upload x3p file", 
       accept = app_config$file_params$allowed_extensions, 
       multiple = TRUE
     )
