@@ -9,12 +9,13 @@ displayPlotCardServer <- function(id, plot_reactive = NULL, header_title = NULL)
     
     # Render the plot
     output$plot <- renderPlot({
-      # req(plot_reactive)
+      req(plot_reactive())
       plot_reactive()
     })
     
     # Render the card with the plot
     output$plot_card <- renderUI({
+      req(plot_reactive())
       card(
         card_header(class = "bg-dark", header_title),
         full_screen = TRUE,

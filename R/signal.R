@@ -11,8 +11,7 @@ signalUI <- function(id) {
 
 signalTabUI <- function(id) {
   tagList(
-    # DT::DTOutput(NS(id, "signal_df"))
-    plotOutput(NS(id, "signal_plot"))
+    displayPlotCardUI(NS(id, "signal_plot"))
   )
 }
 
@@ -33,7 +32,7 @@ signalServer <- function(id, land_rv, buttons_rv, main_session = NULL) {
     
     # Get signal in data frame ----
     observeEvent(input$signal_button, {
-
+      
       # Store study ----
       land_rv$study <- input$study
       
@@ -51,15 +50,18 @@ signalServer <- function(id, land_rv, buttons_rv, main_session = NULL) {
       }
     })
     
-    output$signal_plot <- renderPlot({
+    # Create reactive plot function ----
+    signal_plot_reactive <- reactive({
       req(land_rv$sigs)
       plot_signal(land_rv$sigs)
     })
     
-    # output$signal_df <- DT::renderDT({
-    #   req(land_rv$df$sigs)
-    #   land_rv$df$sigs[[1]]
-    # })
+    # Display plot in card ----
+    displayPlotCardServer(
+      "signal_plot", 
+      plot_reactive = signal_plot_reactive, 
+      header_title = "Signal"
+    )
     
   })
 }
