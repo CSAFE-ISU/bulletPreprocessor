@@ -10,7 +10,7 @@ groovesTabUI <- function(id) {
   tagList(
     displayPrintUI(NS(id, "left_groove")),
     displayPrintUI(NS(id, "right_groove")),
-    plotOutput(NS(id, "grooves")),
+    displayPlotCardUI(NS(id, "grooves_plot")),
   )
 }
 
@@ -89,12 +89,18 @@ groovesServer <- function(id, land_rv, buttons_rv, main_session = NULL) {
       )
     })
     
-    # Plot grooves ----
-    output$grooves <- renderPlot({
+    # Create reactive plot function ----
+    grooves_plot_reactive <- reactive({
+      req(land_rv$ccdata)
+      req(land_rv$left_groove)
+      req(land_rv$right_groove)
       plot_grooves(land_rv$ccdata, 
                    left_groove = land_rv$left_groove,
                    right_groove = land_rv$right_groove)
     })
+    displayPlotCardServer("grooves_plot", 
+                          plot_reactive = grooves_plot_reactive, 
+                          header_title = "Grooves")
     
     # Display left and right groove values ----
     observe({
