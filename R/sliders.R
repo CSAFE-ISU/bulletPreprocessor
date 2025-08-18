@@ -15,7 +15,8 @@ slidersServer <- function(id, land_rv, arg_name, label, max_value) {
     # Decrease button ----
     observeEvent(input$decrease_button, {
       current_val <- input$slider
-      new_val <- max(0, current_val - app_config$ui_params$slider_step_size)  # Ensure we don't go below minimum
+      proposed_val <- current_val - app_config$ui_params$slider_step_size
+      new_val <- max(0, proposed_val)  # Ensure we don't go below minimum
       updateSliderInput(session, "slider", value = new_val)
     })
     
