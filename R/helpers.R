@@ -71,7 +71,6 @@ plot_signal <- function(signal_df) {
     ggplot(aes(x = x)) + 
     geom_line(aes(y = raw_sig), colour = app_config$display_params$signal_color) +
     geom_line(aes(y = sig), colour = app_config$display_params$signal_raw_color) +
-    ylim(c(-5,5)) +
     theme_bw() +
     labs(y = "value")
 }
