@@ -12,7 +12,7 @@ app_config <- list(
     groove_color = "orange",
     rgl_popups_null = TRUE,  # TRUE prevents popups. FALSE allows popups
     scan_size = 400,
-    scan_zoom = 0.2,
+    scan_zoom = 0.7,
     scan_sample_rate = 5,  # for x3p_sample(m=5)
     signal_color = "grey30",
     signal_raw_color = "grey70" 
