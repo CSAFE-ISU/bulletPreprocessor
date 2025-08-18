@@ -46,6 +46,7 @@ server <- function(input, output, session) {
   # Reactive object to store button status: TRUE = on, FALSE = OFF ----
   buttons <- reactiveValues(
     crosscut = FALSE,
+    crosscut_slider = FALSE,
     grooves = FALSE,
     signal = FALSE,
     download = FALSE

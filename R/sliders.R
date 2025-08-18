@@ -1,3 +1,50 @@
+# Slider Module UI
+sliderModuleUI <- function(id, label = "Select Value") {
+  ns <- NS(id)
+  tagList(
+    sliderInput(
+      inputId = ns("slider"),
+      label = label,
+      min = 0,
+      max = 1000,  # This will be updated in the server function
+      value = 0  # This will be updated in the server function
+    )
+  )
+}
+
+# Slider Module Server - Updated to handle reactive initial values
+sliderModuleServer <- function(id, initial_value, max_value) {
+  moduleServer(id, function(input, output, session) {
+    # Update slider with provided parameters when they change
+    observe({
+      
+      init_val <- if(is.reactive(initial_value)) {
+        initial_value() 
+      } else {
+        initial_value
+      }
+      max_val <- if(is.reactive(max_value)) {
+        max_value() 
+      } else {
+        max_value
+      }
+      
+      # Only update if initial_value is not NULL/NA
+      if (!is.null(init_val) && !is.na(init_val)) {
+        updateSliderInput(
+          session = session,
+          inputId = "slider",
+          max = max_val,
+          value = init_val
+        )
+      }
+    })
+    
+    # Return the reactive slider value
+    return(reactive({ input$slider }))
+  })
+}
+
 slidersUI <- function(id) {
   tagList(
     uiOutput(NS(id, "slider")),
