@@ -41,7 +41,9 @@ signalServer <- function(id, land_rv, buttons_rv, main_session = NULL) {
         nav_select(session = main_session, "main_tabs", selected = "Signal")
       }
       
-      # Enable signal button
+      make_output_df(land_rv = land_rv)
+      
+      # Enable download button ----
       buttons_rv$downloadData <- TRUE
     })
     

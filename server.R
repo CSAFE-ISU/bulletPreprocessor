@@ -35,12 +35,10 @@ server <- function(input, output, session) {
     crosscut = NULL,  # crosscut y value
     ccdata = NULL,  # data frame of crosscut x-y coordinates and surface height
     df = NULL,  # data frame of source and x3p from read_bullet()
-    folder = NULL,  # filepath to bullet folder in bullet_replicate_results. Will always be NULL in app because filepath is to temp directory.
     grooves = NULL,  # named vector of left and right groove x values
     land = NULL,  # land name
     resolution = NULL,  # resolution of x3p scan
     sigs = NULL,  # data frame of signal info
-    source = NULL,  # filepath of x3p file in bullet_replicate_results. Will always be NULL in app because filepath is to temp directory.
     study = app_config$ui_params$default_study,  # name of bullet study
     x3p_dims = NULL  # dimensions of x3p
   )

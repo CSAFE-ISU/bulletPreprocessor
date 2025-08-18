@@ -25,6 +25,34 @@ get_land_name <- function(filename) {
   return(stringr::str_extract(filename, "Land \\d+"))
 }
 
+# Make data frame with same columns as those created with GitHub repo
+# bulletxtrctr_replicate_results
+make_output_df <- function(land_rv, drop_x3p = TRUE) {
+  land_rv$df$study <- land_rv$study
+  land_rv$df$folder <- NA  # Folder is tempdir() so no reason to save it
+  land_rv$df$barrel <- land_rv$barrel
+  land_rv$df$bullet <- land_rv$bullet
+  land_rv$df$land <- land_rv$land
+  land_rv$df$source <- NA  # Source is a file in tempdir() so no reason to save it
+  land_rv$df$resolution <- land_rv$resolution
+  land_rv$df$crosscut <- land_rv$crosscut
+  land_rv$df$ccdata <- list(land_rv$ccdata)
+  land_rv$df$grooves <- land_rv$grooves
+  land_rv$df$sigs <- list(land_rv$sigs)
+  
+  if (drop_x3p) {
+    # Drop x3p data frame to make file smaller
+    land_rv$df <- land_rv$df %>% 
+      select(all_of(c("study", "folder", "barrel", "bullet", "land", "source", 
+                      "resolution", "crosscut", "ccdata", "grooves", "sigs")))
+  } else {
+    land_rv$df <- land_rv$df %>% 
+      select(all_of(c("x3p", "study", "folder", "barrel", "bullet", "land", "source", 
+                      "resolution", "crosscut", "ccdata", "grooves", "sigs")))
+  }
+
+}
+
 plot_grooves <- function(ccdata, left_groove, right_groove) {
   ccdata %>% 
     ggplot(aes(x = x, y = value)) + 
