@@ -38,12 +38,24 @@ signalServer <- function(id, land_rv, buttons_rv, main_session = NULL) {
         span2 = app_config$proc_params$signal_span2
       )
       
+      showNotification(
+        "Final groove locations saved.", 
+        type = "message", 
+        duration = app_config$display_params$notification_duration
+      )
+      
       # Switch to signal tab after extracting signal ----
       if (!is.null(main_session)) {
         nav_select(session = main_session, "main_tabs", selected = "Signal")
       }
       
       make_output_df(land_rv = land_rv)
+      
+      showNotification(
+        "Signal extracted.", 
+        type = "message", 
+        duration = app_config$display_params$notification_duration
+      )
       
     })
     

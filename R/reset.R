@@ -82,9 +82,11 @@ resetServer <- function(id, land_rv, buttons_rv, main_session = NULL) {
       removeModal()
       
       # Show success message
-      showNotification("All data has been reset successfully!", 
-                       type = "message", 
-                       duration = 10)
+      showNotification(
+        "All data has been reset successfully!", 
+        type = "message", 
+        duration = app_config$display_params$notification_duration
+      )
     })
     
   })

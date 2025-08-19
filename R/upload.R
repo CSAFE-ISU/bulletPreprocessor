@@ -17,6 +17,16 @@ uploadUI <- function(id) {
 
 uploadServer <- function(id, land_rv, buttons_rv) {
   moduleServer(id, function(input, output, session) {
+    
+    observeEvent(input$study, {
+      # Show message ----
+      showNotification(
+        "Study selected", 
+        type = "message", 
+        duration = app_config$display_params$notification_duration
+      )
+    }, ignoreInit = TRUE)
+    
     observeEvent(input$land_upload, {
       
       # Delete temp directory if it already exists ----
@@ -45,6 +55,14 @@ uploadServer <- function(id, land_rv, buttons_rv) {
       
       # Enable crosscut button ----
       buttons_rv$crosscut <- TRUE
+      
+      # Show message ----
+      showNotification(
+        "x3p file uploaded", 
+        type = "message", 
+        duration = app_config$display_params$notification_duration
+      )
+      
     })
   })
 }

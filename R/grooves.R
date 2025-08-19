@@ -38,6 +38,12 @@ groovesServer <- function(id, land_rv, buttons_rv, main_session = NULL) {
         land_rv$ccdata <- x3p_crosscut(x = land_rv$df$x3p[[1]], y = land_rv$crosscut)
       }
       
+      showNotification(
+        "Final crosscut location saved.", 
+        type = "message", 
+        duration = app_config$display_params$notification_duration
+      )
+      
       # Get default grooves ----
       # Store left and right grooves individually to make them easier to update
       # in the sliders module
@@ -73,6 +79,12 @@ groovesServer <- function(id, land_rv, buttons_rv, main_session = NULL) {
       
       # Enable signal button
       buttons_rv$signal <- TRUE
+      
+      showNotification(
+        "Starting groove locations found. Adjust with sliders if needed.", 
+        type = "message", 
+        duration = app_config$display_params$notification_duration
+      )
     })
     
     # Update land_rv$grooves ----

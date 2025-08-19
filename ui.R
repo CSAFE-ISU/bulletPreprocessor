@@ -48,12 +48,9 @@ ui <- page_sidebar(
       accordion_panel(
         "Signal",
         signalUI("signal1")
-      ),
-      accordion_panel(
-        "Download",
-        downloadUI("download1")
       )
     ),
+    downloadUI("download1"),
     resetUI("reset1")
     
   ),
