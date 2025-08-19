@@ -49,8 +49,8 @@ crosscutServer <- function(id, land_rv, buttons_rv) {
     # Slider module ----
     slider_value <- sliderServer(
       id = "crosscut_slider",
-      initial_val = reactive({ifelse(is.null(land_rv$crosscut), 0, land_rv$crosscut)}),
-      max_val = land_rv$x3p_dims[2]
+      initial_value = reactive({ifelse(is.null(land_rv$crosscut), 0, land_rv$crosscut)}),
+      max_value = land_rv$x3p_dims[2]
     )
     
     # Update reactive values ----

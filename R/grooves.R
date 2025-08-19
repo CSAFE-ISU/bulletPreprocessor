@@ -73,13 +73,13 @@ groovesServer <- function(id, land_rv, buttons_rv, main_session = NULL) {
     # Slider modules ----
     left_groove_value <- sliderServer(
       id = "left_groove_slider",
-      initial_val = reactive({ifelse(is.null(land_rv$left_groove), 0, land_rv$left_groove)}),
-      max_val = reactive({ifelse(is.null(land_rv$ccdata$x), 0, floor(max(land_rv$ccdata$x, na.rm = TRUE)))})
+      initial_value = reactive({ifelse(is.null(land_rv$left_groove), 0, land_rv$left_groove)}),
+      max_value = reactive({ifelse(is.null(land_rv$ccdata$x), 0, floor(max(land_rv$ccdata$x, na.rm = TRUE)))})
     )
     right_groove_value <- sliderServer(
       id = "right_groove_slider",
-      initial_val = reactive({ifelse(is.null(land_rv$right_groove), 500, land_rv$right_groove)}),
-      max_val = reactive({ifelse(is.null(land_rv$ccdata$x), 0, floor(max(land_rv$ccdata$x, na.rm = TRUE)))})
+      initial_value = reactive({ifelse(is.null(land_rv$right_groove), 500, land_rv$right_groove)}),
+      max_value = reactive({ifelse(is.null(land_rv$ccdata$x), 0, floor(max(land_rv$ccdata$x, na.rm = TRUE)))})
     )
     
     # Update reactive values ----

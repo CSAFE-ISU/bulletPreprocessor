@@ -25,16 +25,16 @@ get_land_name <- function(filename) {
   return(stringr::str_extract(filename, "Land \\d+"))
 }
 
-change_slider_value <- function(current_val, step, max_val) {
+change_slider_value <- function(current_value, step, max_value) {
   
-  proposed_val <- current_val + step
+  proposed_value <- current_value + step
   
   if (step < 0) {
     # Don't allow value below min
-    new_val <- max(0, proposed_val)  
+    new_val <- max(0, proposed_value)  
   } else {
     # Don't allow value above max
-    new_val <- min(max_val, proposed_val) 
+    new_val <- min(max_value, proposed_value) 
   }
   
   return(new_val)

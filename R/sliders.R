@@ -20,30 +20,30 @@ sliderUI <- function(id, label = "Select Value") {
 }
 
 # Slider Module Server - Updated to handle reactive initial values
-sliderServer <- function(id, initial_val, max_val) {
+sliderServer <- function(id, initial_value, max_value) {
   moduleServer(id, function(input, output, session) {
     
     # Update slider initial and max values ----
     observe({
       
-      init_val <- if(is.reactive(initial_val)) {
-        initial_val() 
+      init_val <- if(is.reactive(initial_value)) {
+        initial_value() 
       } else {
-        initial_val
+        initial_value
       }
       
-      max_val <- if(is.reactive(max_val)) {
-        max_val() 
+      max_value <- if(is.reactive(max_value)) {
+        max_value() 
       } else {
-        max_val
+        max_value
       }
       
-      # Update if initial_val is not NULL/NA ----
+      # Update if initial_value is not NULL/NA ----
       if (!is.null(init_val) && !is.na(init_val)) {
         updateSliderInput(
           session = session,
           inputId = "slider",
-          max = max_val,
+          max = max_value,
           value = init_val
         )
       }
@@ -52,9 +52,9 @@ sliderServer <- function(id, initial_val, max_val) {
     # Decrease button ----
     observeEvent(input$decrease_button, {
       new_val <- change_slider_value(
-        current_val = input$slider,
+        current_value = input$slider,
         step = -app_config$ui_params$slider_step_size,
-        max_val = max_val
+        max_value = max_value
       )
       updateSliderInput(session, "slider", value = new_val)
     })
@@ -62,9 +62,9 @@ sliderServer <- function(id, initial_val, max_val) {
     # Large decrease button ----
     observeEvent(input$large_decrease_button, {
       new_val <- change_slider_value(
-        current_val = input$slider,
+        current_value = input$slider,
         step = -app_config$ui_params$slider_large_step,
-        max_val = max_val
+        max_value = max_value
       )
       updateSliderInput(session, "slider", value = new_val)
     })
@@ -72,9 +72,9 @@ sliderServer <- function(id, initial_val, max_val) {
     # Increase button ----
     observeEvent(input$increase_button, {
       new_val <- change_slider_value(
-        current_val = input$slider,
+        current_value = input$slider,
         step = app_config$ui_params$slider_step_size,
-        max_val = max_val
+        max_value = max_value
       )
       updateSliderInput(session, "slider", value = new_val)
     })
@@ -82,9 +82,9 @@ sliderServer <- function(id, initial_val, max_val) {
     # Large increase button ----
     observeEvent(input$large_increase_button, {
       new_val <- change_slider_value(
-        current_val = input$slider,
+        current_value = input$slider,
         step = app_config$ui_params$slider_large_step,
-        max_val = max_val
+        max_value = max_value
       )
       updateSliderInput(session, "slider", value = new_val)
     })
