@@ -8,6 +8,7 @@ groovesUI <- function(id) {
       br(),
       sliderUI(ns("left_groove_slider"), label = "Left groove"),
       sliderUI(ns("right_groove_slider"), label = "Right groove"),
+      actionButton(ns("save_grooves_button"), "Save grooves")
     )
   )
 }
@@ -23,6 +24,8 @@ groovesServer <- function(id, land_rv, buttons_rv, main_session = NULL) {
     
     # Disable grooves button when app starts ----
     disable("grooves_button")
+    # Should be hidden in conditional panel, but disable just in case
+    disable("save_grooves_button")  
     
     # Switch the grooves button on or off ----
     observe({
@@ -30,6 +33,15 @@ groovesServer <- function(id, land_rv, buttons_rv, main_session = NULL) {
         enable("grooves_button")
       } else {
         disable("grooves_button")
+      }
+    })
+    
+    # Switch the save grooves button on or off ----
+    observe({
+      if (buttons_rv$save_grooves) {
+        enable("save_grooves_button")
+      } else {
+        disable("save_grooves_button")
       }
     })
     
@@ -43,14 +55,16 @@ groovesServer <- function(id, land_rv, buttons_rv, main_session = NULL) {
       }
       
       # Get default grooves ----
-      grooves <- cc_locate_grooves(
+      # Need as named list for `cc_get_signature()` on signals tab
+      land_rv$grooves <- cc_locate_grooves(
         land_rv$ccdata, 
         method = app_config$proc_params$grooves_method, 
         adjust = app_config$proc_params$grooves_adjust, 
         return_plot = FALSE
       )
-      land_rv$left_groove <- grooves[[1]][1]
-      land_rv$right_groove <- grooves[[1]][2]
+      # Also, store values individually to work better with sliders
+      land_rv$left_groove <- land_rv$grooves[[1]][1]
+      land_rv$right_groove <- land_rv$grooves[[1]][2]
       
       # Switch to grooves tab after calculating grooves ----
       if (!is.null(main_session)) {
@@ -82,10 +96,24 @@ groovesServer <- function(id, land_rv, buttons_rv, main_session = NULL) {
       max_value = reactive({ifelse(is.null(land_rv$ccdata$x), 0, floor(max(land_rv$ccdata$x, na.rm = TRUE)))})
     )
     
+    # Turn on save button if sliders change ----
+    observeEvent(left_groove_value(), {
+      buttons_rv$save_grooves <- TRUE
+    })
+    observeEvent(right_groove_value(), {
+      buttons_rv$save_grooves <- TRUE
+    })
+    
     # Update reactive values ----
-    observe({
+    observeEvent(input$save_grooves_button, {
       land_rv$left_groove <- left_groove_value()
       land_rv$right_groove <- right_groove_value()
+      land_rv$grooves[[1]][1] <- left_groove_value()
+      land_rv$grooves[[1]][2] <- right_groove_value()
+      
+      # Disable save button ----
+      buttons_rv$save_grooves <- FALSE
+      
     })
     
     # Create reactive plot function ----

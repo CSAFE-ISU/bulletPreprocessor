@@ -45,7 +45,7 @@ signalServer <- function(id, land_rv, buttons_rv, main_session = NULL) {
       make_output_df(land_rv = land_rv)
       
       # Enable download button ----
-      buttons_rv$downloadData <- TRUE
+      buttons_rv$download <- TRUE
     })
     
     # Create reactive plot function ----
