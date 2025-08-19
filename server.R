@@ -11,8 +11,11 @@ library(x3ptools)
 source("R/config.R")
 source("R/crosscut.R")
 source("R/display.R")
+source("R/download.R")
 source("R/grooves.R")
+source("R/helpers.R")
 source("R/land-scan.R")
+source("R/reset.R")
 source("R/signal.R")
 source("R/sliders.R")
 source("R/upload.R")
@@ -68,5 +71,8 @@ server <- function(input, output, session) {
   
   # Download ----
   downloadServer("download1", land, buttons)
+  
+  # Reset ----
+  resetServer("reset1", land, buttons, main_session = session)
 
 }

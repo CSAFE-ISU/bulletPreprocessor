@@ -48,7 +48,8 @@ ui <- page_sidebar(
         "Download",
         downloadUI("download1")
       )
-    )
+    ),
+    resetUI("reset1")
     
   ),
   
