@@ -1,12 +1,14 @@
 signalUI <- function(id) {
+  ns <- NS(id)
   tagList(
-    actionButton(NS(id, "signal_button"), "Get signal")
+    actionButton(ns("signal_button"), "Get signal")
   )
 }
 
 signalTabUI <- function(id) {
+  ns <- NS(id)
   tagList(
-    displayPlotCardUI(NS(id, "signal_plot"))
+    displayPlotCardUI(ns("signal_plot"))
   )
 }
 

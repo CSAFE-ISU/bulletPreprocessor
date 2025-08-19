@@ -1,12 +1,13 @@
 uploadUI <- function(id) {
+  ns <- NS(id)
   tagList(
     selectInput(
-      NS(id, "study"), 
+      ns("study"), 
       label = "Select bullet study", 
       choices = c("Hamby 44", "Houston Group 1", "Houston Group 2", "Houston Group 3", "Phoenix"), 
       selected = app_config$ui_params$default_study),
     fileInput(
-      NS(id, "land_upload"), 
+      ns("land_upload"), 
       "Upload x3p file", 
       accept = app_config$file_params$allowed_extensions, 
       multiple = TRUE

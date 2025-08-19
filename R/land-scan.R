@@ -1,6 +1,7 @@
 landScanUI <- function(id) {
+  ns <- NS(id)
   tagList(
-    uiOutput(NS(id, "land_display"))
+    uiOutput(ns("land_display"))
   )
 }
 

@@ -1,14 +1,16 @@
 groovesUI <- function(id) {
+  ns <- NS(id)
   tagList(
-    actionButton(NS(id, "grooves_button"), "Get grooves"),
-    slidersUI(NS(id, "left_groove_slider")),
-    slidersUI(NS(id, "right_groove_slider"))
+    actionButton(ns("grooves_button"), "Get grooves"),
+    slidersUI(ns("left_groove_slider")),
+    slidersUI(ns("right_groove_slider"))
   )
 }
 
 groovesTabUI <- function(id) {
+  ns <- NS(id)
   tagList(
-    displayPlotCardUI(NS(id, "grooves_plot"))
+    displayPlotCardUI(ns("grooves_plot"))
   )
 }
 

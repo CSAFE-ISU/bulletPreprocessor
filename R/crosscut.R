@@ -1,7 +1,8 @@
 crosscutUI <- function(id) {
+  ns <- NS(id)
   tagList(
-    actionButton(NS(id, "crosscut_button"), "Get crosscut"),
-    slidersUI(NS(id, "crosscut_slider"))
+    actionButton(ns("crosscut_button"), "Get crosscut"),
+    slidersUI(ns("crosscut_slider"))
   )
 }
 

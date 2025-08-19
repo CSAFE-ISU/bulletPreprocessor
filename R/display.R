@@ -1,6 +1,7 @@
 displayPlotCardUI <- function(id) {
+  ns <- NS(id)
   tagList(
-   uiOutput(NS(id, "plot_card"))
+   uiOutput(ns("plot_card"))
   )
 }
 
@@ -30,8 +31,9 @@ displayPlotCardServer <- function(id, plot_reactive = NULL, header_title = NULL)
 }
 
 displayPrintUI <- function(id) {
+  ns <- NS(id)
   tagList(
-    verbatimTextOutput(NS(id, "value"))
+    verbatimTextOutput(ns("value"))
   )
 }
 

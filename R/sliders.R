@@ -1,6 +1,7 @@
 slidersUI <- function(id) {
+  ns <- NS(id)
   tagList(
-    uiOutput(NS(id, "slider")),
+    uiOutput(ns("slider")),
   )
 }
 

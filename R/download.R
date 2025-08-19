@@ -1,6 +1,7 @@
 downloadUI <- function(id) {
+  ns <- NS(id)
   tagList(
-    downloadButton(NS(id, "download_button"), "Download")
+    downloadButton(ns("download_button"), "Download")
   )
 }
 
