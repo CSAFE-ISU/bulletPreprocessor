@@ -48,6 +48,7 @@ server <- function(input, output, session) {
     crosscut = FALSE,
     crosscut_slider = FALSE,
     grooves = FALSE,
+    grooves_sliders = FALSE,
     signal = FALSE,
     download = FALSE
   )

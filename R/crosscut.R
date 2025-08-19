@@ -5,12 +5,8 @@ crosscutUI <- function(id) {
     # Use conditionalPanel to show/hide based on a condition
     conditionalPanel(
       condition = paste0("output['", ns("crosscut_available"), "'] == true"),
-      sliderModuleUI(ns("my_slider"), label = "Choose a value:"),
       br(),
-      h4("Current crosscut value:"),
-      textOutput(ns("crosscut_value")),
-      h4("Current slider value:"),
-      textOutput(ns("slider_value"))
+      sliderUI(ns("crosscut_slider"), label = NULL)
     )
   )
 }
@@ -50,32 +46,14 @@ crosscutServer <- function(id, land_rv, buttons_rv) {
     })
     outputOptions(output, "crosscut_available", suspendWhenHidden = FALSE)
     
-    # Slider module. Capture current slider value ----
-    slider_value <- sliderModuleServer(
-      id = "my_slider",
-      initial_value = reactive({ifelse(is.null(land_rv$crosscut), 0, land_rv$crosscut)}),
-      max_value = land_rv$x3p_dims[2]
+    # Slider module ----
+    slider_value <- sliderServer(
+      id = "crosscut_slider",
+      initial_val = reactive({ifelse(is.null(land_rv$crosscut), 0, land_rv$crosscut)}),
+      max_val = land_rv$x3p_dims[2]
     )
     
-    # Display crosscut value ----
-    output$crosscut_value <- renderText({
-      if (is.null(land_rv$crosscut)) {
-        "Not set yet"
-      } else {
-        paste("Crosscut value:", land_rv$crosscut)
-      }
-    })
-    
-    # Display current slider value ----
-    output$slider_value <- renderText({
-      if (is.null(land_rv$crosscut)) {
-        "Slider not available yet"
-      } else {
-        paste("The slider is currently set to:", slider_value())
-      }
-    })
-    
-    # Update reactive values
+    # Update reactive values ----
     observe({
       land_rv$crosscut <- slider_value()
     })
