@@ -21,7 +21,7 @@ resetServer <- function(id, land_rv, buttons_rv, main_session = NULL) {
         easyClose = TRUE,
         footer = tagList(
           modalButton("Cancel"),
-          actionButton(session$ns("confirm_reset"), "Reset", class = "btn-warning")
+          actionButton(session$ns("confirm_reset"), "Reset")
         )
       ))
       
