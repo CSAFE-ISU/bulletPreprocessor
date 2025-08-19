@@ -46,11 +46,7 @@ server <- function(input, output, session) {
   # Reactive object to store button status: TRUE = on, FALSE = OFF ----
   buttons <- reactiveValues(
     crosscut = FALSE,
-    crosscut_slider = FALSE,
-    save_crosscut = FALSE,
     grooves = FALSE,
-    save_grooves = FALSE,
-    grooves_sliders = FALSE,
     signal = FALSE,
     download = FALSE
   )
@@ -59,40 +55,18 @@ server <- function(input, output, session) {
   uploadServer("upload1", land, buttons)
 
   # Display land ----
-  landScanServer(
-    id = "land_scan1", 
-    land_rv = land, 
-    crosscut_value = reactive({ifelse(is.null(crosscut_value), NA, crosscut_value())})
-  ) 
+  landScanServer("land_scan1", land) 
   
   # Crosscut ----
-  crosscut_value <- crosscutServer(
-    id = "crosscut1", 
-    land_rv = land, 
-    buttons_rv = buttons
-  )
+  crosscutServer("crosscut1", land, buttons)
   
   # Grooves ----
-  groovesServer(
-    "grooves1",
-    land_rv = land, 
-    buttons_rv = buttons, 
-    main_session = session
-  )
+  groovesServer("grooves1", land, buttons, main_session = session)
   
   # Signal ----
-  signalServer(
-    "signal1",
-    land_rv = land, 
-    buttons_rv = buttons, 
-    main_session = session
-  )
+  signalServer("signal1", land, buttons, main_session = session)
   
   # Download ----
-  downloadServer(
-    "download1",
-    land_rv = land, 
-    buttons_rv = buttons
-  )
+  downloadServer("download1", land, buttons)
 
 }

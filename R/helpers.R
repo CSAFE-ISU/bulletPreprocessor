@@ -25,21 +25,6 @@ get_land_name <- function(filename) {
   return(stringr::str_extract(filename, "Land \\d+"))
 }
 
-change_slider_value <- function(current_value, step, max_value) {
-  
-  proposed_value <- current_value + step
-  
-  if (step < 0) {
-    # Don't allow value below min
-    new_val <- max(0, proposed_value)  
-  } else {
-    # Don't allow value above max
-    new_val <- min(max_value, proposed_value) 
-  }
-  
-  return(new_val)
-}
-
 # Make data frame with same columns as those created with GitHub repo
 # bulletxtrctr_replicate_results
 make_output_df <- function(land_rv, drop_x3p = TRUE) {
@@ -52,8 +37,7 @@ make_output_df <- function(land_rv, drop_x3p = TRUE) {
   land_rv$df$resolution <- land_rv$resolution
   land_rv$df$crosscut <- land_rv$crosscut
   land_rv$df$ccdata <- list(land_rv$ccdata)
-  land_rv$df$grooves <- NA
-  land_rv$df$grooves <- list("groove" = c(land_rv$left_groove, land_rv$right_groove))
+  land_rv$df$grooves <- land_rv$grooves
   land_rv$df$sigs <- list(land_rv$sigs)
   
   if (drop_x3p) {
@@ -67,7 +51,6 @@ make_output_df <- function(land_rv, drop_x3p = TRUE) {
                       "resolution", "crosscut", "ccdata", "grooves", "sigs")))
   }
 
-  return()
 }
 
 plot_grooves <- function(ccdata, left_groove, right_groove) {

@@ -41,11 +41,10 @@ signalServer <- function(id, land_rv, buttons_rv, main_session = NULL) {
         nav_select(session = main_session, "main_tabs", selected = "Signal")
       }
       
-      # Make data frame for download ----
       make_output_df(land_rv = land_rv)
       
       # Enable download button ----
-      buttons_rv$download <- TRUE
+      buttons_rv$downloadData <- TRUE
     })
     
     # Create reactive plot function ----

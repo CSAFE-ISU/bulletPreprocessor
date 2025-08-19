@@ -26,7 +26,6 @@ ui <- page_sidebar(
     
     # Upload bullet land ----
     accordion(
-      id = "acc",
       multiple = FALSE,
       open = FALSE,
       accordion_panel(

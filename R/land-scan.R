@@ -5,12 +5,11 @@ landScanUI <- function(id) {
 }
 
 # Land Scan Module Server
-landScanServer <- function(id, land_rv, crosscut_value) {
+landScanServer <- function(id, land_rv) {
   moduleServer(id, function(input, output, session) {
     
     # Render land scan ----
     output$land_scan <- renderRglwidget({
-      
       # Clear any existing RGL scenes
       rgl::clear3d()
     
@@ -20,13 +19,7 @@ landScanServer <- function(id, land_rv, crosscut_value) {
       req(length(land_rv$df$x3p) > 0)
       req(!is.null(land_rv$df$x3p[[1]]))
       
-      crosscut_value <- if(is.reactive(crosscut_value)) {
-        crosscut_value() 
-      } else {
-        crosscut_value
-      }
-      
-      if (is.na(crosscut_value)) {
+      if (is.null(land_rv$crosscut)) {
         land_rv$df$x3p[[1]] %>%
           x3p_sample(m=app_config$display_params$scan_sample_rate) %>%
           x3p_image(
@@ -36,7 +29,7 @@ landScanServer <- function(id, land_rv, crosscut_value) {
       } else {
         land_rv$df$x3p[[1]] %>%
           x3p_add_hline(
-            yintercept = crosscut_value, 
+            yintercept = land_rv$crosscut, 
             size = 20, 
             color = app_config$display_params$crosscut_color
           ) %>%
