@@ -54,7 +54,6 @@ resetServer <- function(id, land_rv, buttons_rv, main_session = NULL) {
       buttons_rv$crosscut <- FALSE
       buttons_rv$grooves <- FALSE
       buttons_rv$signal <- FALSE
-      buttons_rv$download <- FALSE
       
       # Clear RGL scene
       try({
@@ -63,7 +62,20 @@ resetServer <- function(id, land_rv, buttons_rv, main_session = NULL) {
       
       # Switch back to first tab
       if (!is.null(main_session)) {
-        nav_select(session = main_session, "main_tabs", selected = "Land with Crosscut")
+        nav_select(
+          session = main_session, 
+          "main_tabs", 
+          selected = "Land with Crosscut"
+        )
+      }
+      
+      # Open Get Started accordion panel
+      if (!is.null(main_session)) {
+        accordion_panel_open(
+          id = "acc", 
+          values = c("Get Started"), 
+          session = main_session
+        )
       }
       
       # Close the modal

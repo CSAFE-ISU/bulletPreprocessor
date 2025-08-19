@@ -39,10 +39,12 @@ server <- function(input, output, session) {
     ccdata = NULL,  # data frame of crosscut x-y coordinates and surface height
     df = NULL,  # data frame of source and x3p from read_bullet()
     grooves = NULL,  # named vector of left and right groove x values
+    left_groove = NULL, # left groove x value. Easier to access than grooves[[1]][1]
+    right_groove = NULL, # right groove x value. Easier to access than grooves[[1]][2]
     land = NULL,  # land name
     resolution = NULL,  # resolution of x3p scan
     sigs = NULL,  # data frame of signal info
-    study = app_config$ui_params$default_study,  # name of bullet study
+    study = NULL,  # name of bullet study
     x3p_dims = NULL  # dimensions of x3p
   )
   
@@ -50,8 +52,7 @@ server <- function(input, output, session) {
   buttons <- reactiveValues(
     crosscut = FALSE,
     grooves = FALSE,
-    signal = FALSE,
-    download = FALSE
+    signal = FALSE
   )
   
   # Load land ----

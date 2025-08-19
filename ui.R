@@ -3,10 +3,14 @@ library(shiny)
 library(shinyFiles)
 library(shinyjs)
 
+source("R/config.R")
 source("R/crosscut.R")
 source("R/display.R")
+source("R/download.R")
 source("R/grooves.R")
+source("R/helpers.R")
 source("R/land-scan.R")
+source("R/reset.R")
 source("R/signal.R")
 source("R/sliders.R")
 source("R/upload.R")
@@ -26,6 +30,7 @@ ui <- page_sidebar(
     
     # Upload bullet land ----
     accordion(
+      id = "acc",
       multiple = FALSE,
       open = FALSE,
       accordion_panel(
