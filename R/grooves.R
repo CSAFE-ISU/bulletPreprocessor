@@ -33,10 +33,7 @@ groovesServer <- function(id, land_rv, buttons_rv, main_session = NULL) {
     observeEvent(input$grooves_button, {
       
       # Take crosscut ----
-      if (is.null(land_rv$ccdata)) {
-        req(land_rv$crosscut)
-        land_rv$ccdata <- x3p_crosscut(x = land_rv$df$x3p[[1]], y = land_rv$crosscut)
-      }
+      land_rv$ccdata <- x3p_crosscut(x = land_rv$df$x3p[[1]], y = land_rv$crosscut)
       
       showNotification(
         "Final crosscut location saved.", 
