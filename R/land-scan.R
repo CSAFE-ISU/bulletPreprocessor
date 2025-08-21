@@ -16,9 +16,9 @@ landScanServer <- function(id, land_rv) {
     
       req(land_rv$df)
       req(nrow(land_rv$df) > 0)
-      req(!is.null(land_rv$df$x3p))
+      req(land_rv$df$x3p)
       req(length(land_rv$df$x3p) > 0)
-      req(!is.null(land_rv$df$x3p[[1]]))
+      req(land_rv$df$x3p[[1]])
       
       if (is.null(land_rv$crosscut)) {
         land_rv$df$x3p[[1]] %>%
@@ -46,7 +46,7 @@ landScanServer <- function(id, land_rv) {
     
     # Display land in card ----
     output$land_display <- renderUI({
-      req(!is.null(land_rv$df))
+      req(land_rv$df)
       card(
         card_header(
           class = app_config$display_params$card_header_class, 
