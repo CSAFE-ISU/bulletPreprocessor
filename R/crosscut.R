@@ -24,6 +24,8 @@ crosscutServer <- function(id, land_rv, buttons_rv) {
     # Display and update the crosscut ----
     observeEvent(input$crosscut_button, {
       req(land_rv$df)
+      req(land_rv$df$x3p)
+      req(land_rv$x3p_dims[2])
       
       # Get default crosscut ----
       land_rv$crosscut <- land_rv$df$x3p[[1]] %>% 

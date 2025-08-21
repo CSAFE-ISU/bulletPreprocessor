@@ -17,6 +17,8 @@ displayPlotCardServer <- function(id, plot_reactive = NULL, header_title = NULL)
     # Render the card with the plot
     output$plot_card <- renderUI({
       req(plot_reactive())
+      req(header_title)
+      
       card(
         card_header(
           class = app_config$display_params$card_header_class, 

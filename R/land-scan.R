@@ -5,20 +5,16 @@ landScanUI <- function(id) {
   )
 }
 
-# Land Scan Module Server
 landScanServer <- function(id, land_rv) {
   moduleServer(id, function(input, output, session) {
     
     # Render land scan ----
     output$land_scan <- renderRglwidget({
+      req(land_rv$df)
+      req(land_rv$df$x3p)
+      
       # Clear any existing RGL scenes
       rgl::clear3d()
-    
-      req(land_rv$df)
-      req(nrow(land_rv$df) > 0)
-      req(land_rv$df$x3p)
-      req(length(land_rv$df$x3p) > 0)
-      req(land_rv$df$x3p[[1]])
       
       if (is.null(land_rv$crosscut)) {
         land_rv$df$x3p[[1]] %>%
@@ -47,6 +43,10 @@ landScanServer <- function(id, land_rv) {
     # Display land in card ----
     output$land_display <- renderUI({
       req(land_rv$df)
+      req(land_rv$barrel)
+      req(land_rv$bullet)
+      req(land_rv$land)
+      
       card(
         card_header(
           class = app_config$display_params$card_header_class, 

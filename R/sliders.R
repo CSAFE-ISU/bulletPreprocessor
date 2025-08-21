@@ -44,13 +44,9 @@ slidersServer <- function(id, land_rv, arg_name, label, max_value) {
     
     # Display slider ----
     output$slider <- renderUI({
-      # Only render slider valid values exist ----
-      if (any(is.null(max_value), 
-              is.null(land_rv[[arg_name]]), 
-              is.na(max_value), 
-              is.na(land_rv[[arg_name]]))) {
-        return(NULL)
-      }
+      req(label)
+      req(max_value)
+      req(land_rv[[arg_name]])
       
       # renderUI requires tagList to render multiple inputs
       tagList(

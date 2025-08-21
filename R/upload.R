@@ -45,7 +45,7 @@ uploadServer <- function(id, land_rv, buttons_rv) {
       # Load bullet and get metadata ----
       land_rv$df <- read_bullet(app_config$file_params$temp_dir)
       land_rv$barrel <- get_barrel_name(
-        input$land_upload$name, 
+        filename = input$land_upload$name, 
         study = land_rv$study
       )
       land_rv$bullet <- get_bullet_name(input$land_upload$name)

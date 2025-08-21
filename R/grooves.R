@@ -74,7 +74,7 @@ groovesServer <- function(id, land_rv, buttons_rv, main_session = NULL) {
         nav_select(session = main_session, "main_tabs", selected = "Grooves")
       }
       
-      # Enable signal button
+      # Enable signal button ----
       buttons_rv$signal <- TRUE
       
       showNotification(
@@ -90,6 +90,7 @@ groovesServer <- function(id, land_rv, buttons_rv, main_session = NULL) {
     observe({
       req(land_rv$left_groove)
       req(land_rv$right_groove)
+      
       land_rv$grooves[[1]][1] <- land_rv$left_groove
       land_rv$grooves[[1]][2] <- land_rv$right_groove
     })
@@ -99,6 +100,7 @@ groovesServer <- function(id, land_rv, buttons_rv, main_session = NULL) {
       req(land_rv$ccdata)
       req(land_rv$left_groove)
       req(land_rv$right_groove)
+      
       plot_grooves(land_rv$ccdata, 
                    left_groove = land_rv$left_groove,
                    right_groove = land_rv$right_groove)

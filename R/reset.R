@@ -14,7 +14,7 @@ resetServer <- function(id, land_rv, buttons_rv, main_session = NULL) {
     
     observeEvent(input$reset_button, {
       
-      # Show confirmation dialog
+      # Show confirmation dialog ----
       showModal(modalDialog(
         title = "Confirm Reset",
         "Are you sure you want to reset all data? This action cannot be undone.",
@@ -27,15 +27,15 @@ resetServer <- function(id, land_rv, buttons_rv, main_session = NULL) {
       
     })
     
-    # Perform reset after confirmation
+    # Perform reset after confirmation ----
     observeEvent(input$confirm_reset, {
       
-      # Delete temp directory if it exists
+      # Delete temp directory if it exists ----
       if (dir.exists(app_config$file_params$temp_dir)) {
         unlink(app_config$file_params$temp_dir, recursive = TRUE)
       }
       
-      # Reset all land reactive values to NULL
+      # Reset all land reactive values to NULL ----
       land_rv$barrel <- NULL
       land_rv$bullet <- NULL
       land_rv$crosscut <- NULL
@@ -50,17 +50,17 @@ resetServer <- function(id, land_rv, buttons_rv, main_session = NULL) {
       land_rv$study <- NULL
       land_rv$x3p_dims <- NULL
       
-      # Reset all button states to FALSE
+      # Reset all button states to FALSE ----
       buttons_rv$crosscut <- FALSE
       buttons_rv$grooves <- FALSE
       buttons_rv$signal <- FALSE
       
-      # Clear RGL scene
+      # Clear RGL scene ----
       try({
         rgl::clear3d()
       }, silent = TRUE)
       
-      # Switch back to first tab
+      # Switch back to first tab ----
       if (!is.null(main_session)) {
         nav_select(
           session = main_session, 
@@ -69,7 +69,7 @@ resetServer <- function(id, land_rv, buttons_rv, main_session = NULL) {
         )
       }
       
-      # Open Get Started accordion panel
+      # Open Get Started accordion panel ----
       if (!is.null(main_session)) {
         accordion_panel_open(
           id = "acc", 
@@ -78,10 +78,10 @@ resetServer <- function(id, land_rv, buttons_rv, main_session = NULL) {
         )
       }
       
-      # Close the modal
+      # Close the modal ----
       removeModal()
       
-      # Show success message
+      # Show success message ----
       showNotification(
         "All data has been reset successfully!", 
         type = "message", 
