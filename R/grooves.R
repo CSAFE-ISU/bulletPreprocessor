@@ -100,6 +100,7 @@ groovesServer <- function(id, land_rv, buttons_rv, main_session = NULL) {
       req(land_rv$ccdata)
       req(land_rv$left_groove)
       req(land_rv$right_groove)
+      validate(need(land_rv$left_groove < land_rv$right_groove, "Left groove must be less than right groove"))
       
       plot_grooves(land_rv$ccdata, 
                    left_groove = land_rv$left_groove,

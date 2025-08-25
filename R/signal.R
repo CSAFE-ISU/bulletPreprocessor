@@ -62,6 +62,9 @@ signalServer <- function(id, land_rv, buttons_rv, main_session = NULL) {
     # Create reactive plot function ----
     signal_plot_reactive <- reactive({
       req(land_rv$sigs)
+      validate(need(any(!is.na(land_rv$sigs$raw_sig)), "No valid raw signal values found"))
+      validate(need(any(!is.na(land_rv$sigs$sig)), "No valid signal values found"))
+      
       plot_signal(land_rv$sigs)
     })
     
