@@ -38,7 +38,7 @@ ui <- page_sidebar(
         uploadUI("upload1")
       ),
       accordion_panel(
-        "Crosscut",
+        "Crosscut and Grooves",
         crosscutUI("crosscut1")
       ),
       accordion_panel(

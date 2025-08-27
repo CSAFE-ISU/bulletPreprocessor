@@ -9,7 +9,9 @@ app_config <- list(
     card_full_screen = TRUE,
     card_header_class = "bg-dark",
     crosscut_color = "#eeeeee",
-    groove_color = "orange",
+    crosscut_size = 20,
+    groove_color = "lightblue",
+    groove_size = 20,
     notification_duration = 5,
     rgl_popups_null = TRUE,  # TRUE prevents popups. FALSE allows popups
     scan_size = 400,

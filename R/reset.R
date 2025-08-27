@@ -39,6 +39,8 @@ resetServer <- function(id, land_rv, buttons_rv, main_session = NULL) {
       land_rv$barrel <- NULL
       land_rv$bullet <- NULL
       land_rv$crosscut <- NULL
+      land_rv$left_scan <- NULL
+      land_rv$right_scan <- NULL
       land_rv$ccdata <- NULL
       land_rv$df <- NULL
       land_rv$grooves <- NULL

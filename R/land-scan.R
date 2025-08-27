@@ -25,10 +25,20 @@ landScanServer <- function(id, land_rv) {
           )
       } else {
         land_rv$df$x3p[[1]] %>%
-          x3p_add_hline(
+          x3p_add_hline(  # crosscut
             yintercept = land_rv$crosscut, 
-            size = 20, 
+            size = app_config$display_params$crosscut_size,
             color = app_config$display_params$crosscut_color
+          ) %>%
+          x3p_add_vline(  # left groove
+            xintercept = land_rv$left_scan,
+            size = app_config$display_params$groove_size,
+            color = app_config$display_params$groove_color
+          ) %>%
+          x3p_add_vline(  # right groove
+            xintercept = land_rv$right_scan,
+            size = app_config$display_params$groove_size,
+            color = app_config$display_params$groove_color
           ) %>%
           x3p_sample(m=app_config$display_params$scan_sample_rate) %>%
           x3p_image(

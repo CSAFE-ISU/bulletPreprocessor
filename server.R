@@ -36,6 +36,8 @@ server <- function(input, output, session) {
     barrel = NULL,  # barrel name
     bullet = NULL,  # bullet name
     crosscut = NULL,  # crosscut y value
+    left_scan = NULL,  # left groove location
+    right_scan = NULL,  # right groove location
     ccdata = NULL,  # data frame of crosscut x-y coordinates and surface height
     df = NULL,  # data frame of source and x3p from read_bullet()
     grooves = NULL,  # named vector of left and right groove x values
