@@ -13,7 +13,7 @@ downloadServer <- function(id, land_rv, buttons_rv) {
         paste(land_rv$study, land_rv$barrel, land_rv$bullet, land_rv$land, "signal.rds", sep="-")
       },
       content = function(file) {
-        saveRDS(land_rv$df, file)
+        saveRDS(land_rv$output_df, file)
       }
     )
     

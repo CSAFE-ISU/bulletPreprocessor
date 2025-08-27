@@ -73,14 +73,34 @@ crosscutServer <- function(id, land_rv, buttons_rv) {
         max_value = land_rv$x3p_dims[1]
       )
       
-      # # Enable grooves button ----
-      # buttons_rv$grooves <- TRUE
+      # Enable grooves button ----
+      buttons_rv$profile <- TRUE
       
       showNotification(
         "Starting crosscut location found. Adjust with slider if needed.", 
         type = "message", 
         duration = app_config$display_params$notification_duration
       )
+    })
+    
+    # Update land_rv$grooves ----
+    # Left_scan and right_scan are updated by sliders module, but
+    # land_rv$grooves is not.
+    observe({
+      req(land_rv$left_scan)
+      req(land_rv$right_scan)
+      
+      land_rv$grooves[[1]][1] <- land_rv$left_scan
+      land_rv$grooves[[1]][2] <- land_rv$right_scan
+    })
+    
+    # Update crosscut data ----
+    observe({
+      req(land_rv$df)
+      req(land_rv$df$x3p)
+      req(land_rv$crosscut)
+      
+      land_rv$ccdata <- x3p_crosscut(x = land_rv$df$x3p[[1]], y = land_rv$crosscut)
     })
     
   })

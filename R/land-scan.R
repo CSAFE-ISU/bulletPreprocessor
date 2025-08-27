@@ -33,12 +33,12 @@ landScanServer <- function(id, land_rv) {
           x3p_add_vline(  # left groove
             xintercept = land_rv$left_scan,
             size = app_config$display_params$groove_size,
-            color = app_config$display_params$groove_color
+            color = app_config$display_params$groove_left_color
           ) %>%
           x3p_add_vline(  # right groove
             xintercept = land_rv$right_scan,
             size = app_config$display_params$groove_size,
-            color = app_config$display_params$groove_color
+            color = app_config$display_params$groove_right_color
           ) %>%
           x3p_sample(m=app_config$display_params$scan_sample_rate) %>%
           x3p_image(

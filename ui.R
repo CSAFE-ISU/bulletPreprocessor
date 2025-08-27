@@ -7,7 +7,7 @@ source("R/config.R")
 source("R/crosscut.R")
 source("R/display.R")
 source("R/download.R")
-source("R/grooves.R")
+source("R/profile.R")
 source("R/helpers.R")
 source("R/land-scan.R")
 source("R/reset.R")
@@ -42,8 +42,8 @@ ui <- page_sidebar(
         crosscutUI("crosscut1")
       ),
       accordion_panel(
-        "Grooves",
-        groovesUI("grooves1"),
+        "Profile",
+        profileUI("profile1"),
       ),
       accordion_panel(
         "Signal",
@@ -58,8 +58,8 @@ ui <- page_sidebar(
   navset_card_underline(
     title = "Visualizations",
     id = "main_tabs",
-    nav_panel("Land with Crosscut", landScanUI("land_scan1")),
-    nav_panel("Grooves", groovesTabUI("grooves1")),
+    nav_panel("Land with Crosscut and Grooves", landScanUI("land_scan1")),
+    nav_panel("Profile", profileTabUI("profile1")),
     nav_panel("Signal", signalTabUI("signal1"))
   )
  

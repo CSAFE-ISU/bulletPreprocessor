@@ -10,7 +10,8 @@ app_config <- list(
     card_header_class = "bg-dark",
     crosscut_color = "#eeeeee",
     crosscut_size = 20,
-    groove_color = "lightblue",
+    groove_left_color = "turquoise",
+    groove_right_color = "greenyellow",
     groove_size = 20,
     notification_duration = 5,
     rgl_popups_null = TRUE,  # TRUE prevents popups. FALSE allows popups

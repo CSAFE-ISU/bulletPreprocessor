@@ -54,7 +54,7 @@ resetServer <- function(id, land_rv, buttons_rv, main_session = NULL) {
       
       # Reset all button states to FALSE ----
       buttons_rv$crosscut <- FALSE
-      buttons_rv$grooves <- FALSE
+      buttons_rv$profile <- FALSE
       buttons_rv$signal <- FALSE
       
       # Clear RGL scene ----

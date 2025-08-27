@@ -12,7 +12,7 @@ source("R/config.R")
 source("R/crosscut.R")
 source("R/display.R")
 source("R/download.R")
-source("R/grooves.R")
+source("R/profile.R")
 source("R/helpers.R")
 source("R/land-scan.R")
 source("R/reset.R")
@@ -47,13 +47,14 @@ server <- function(input, output, session) {
     resolution = NULL,  # resolution of x3p scan
     sigs = NULL,  # data frame of signal info
     study = NULL,  # name of bullet study
-    x3p_dims = NULL  # dimensions of x3p
+    x3p_dims = NULL,  # dimensions of x3p
+    output_df = NULL  # data frame for download
   )
   
   # Reactive object to store button status: TRUE = on, FALSE = OFF ----
   buttons <- reactiveValues(
     crosscut = FALSE,
-    grooves = FALSE,
+    profile = FALSE,
     signal = FALSE
   )
   
@@ -67,7 +68,7 @@ server <- function(input, output, session) {
   crosscutServer("crosscut1", land, buttons)
   
   # Grooves ----
-  groovesServer("grooves1", land, buttons, main_session = session)
+  profileServer("profile1", land, buttons, main_session = session)
   
   # Signal ----
   signalServer("signal1", land, buttons, main_session = session)
