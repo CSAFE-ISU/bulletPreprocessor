@@ -66,7 +66,7 @@ crosscutServer <- function(id, land_rv, buttons_rv) {
         arg_name = "right_scan", 
         label = "Right groove",
         min_value = floor(land_rv$x3p_dims[1] / 3),
-        max_value = land_rv$x3p_dims[1]
+        max_value = floor(2 * land_rv$x3p_dims[1] / 3)
       )
       
       showNotification(
