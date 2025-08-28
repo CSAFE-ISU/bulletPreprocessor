@@ -54,9 +54,8 @@ server <- function(input, output, session) {
   # Reactive object to store button status: TRUE = on, FALSE = OFF ----
   buttons <- reactiveValues(
     upload = TRUE,
-    crosscut = FALSE,
-    profile = FALSE,
-    signal = FALSE
+    signal = FALSE,
+    reset = FALSE
   )
   
   # Load land ----
@@ -65,7 +64,7 @@ server <- function(input, output, session) {
   # Display land ----
   landScanServer("land_scan1", land, buttons) 
   
-  # Crosscut ----
+  # Crosscut and Grooves ----
   crosscutServer("crosscut1", land, buttons)
   
   # Signal ----

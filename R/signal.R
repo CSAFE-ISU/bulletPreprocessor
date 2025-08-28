@@ -1,7 +1,7 @@
 signalUI <- function(id) {
   ns <- NS(id)
   tagList(
-    actionButton(ns("signal_button"), "Get signal")
+    uiOutput(ns("signal_buttonUI"))
   )
 }
 
@@ -57,6 +57,16 @@ signalServer <- function(id, land_rv, buttons_rv, main_session = NULL) {
         duration = app_config$display_params$notification_duration
       )
       
+    })
+    
+    output$signal_buttonUI <- renderUI({
+      req(land_rv$df)
+      req(land_rv$ccdata)
+      req(land_rv$grooves)
+      
+      tagList(
+        actionButton(session$ns("signal_button"), "Get signal")
+      )
     })
     
     # Create reactive plot function ----

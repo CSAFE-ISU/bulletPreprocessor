@@ -12,6 +12,18 @@ resetUI <- function(id) {
 resetServer <- function(id, land_rv, buttons_rv, main_session = NULL) {
   moduleServer(id, function(input, output, session) {
     
+    # Disable button when app starts ----
+    disable("reset_button")
+    
+    # Switch the button on or off ----
+    observe({
+      if (buttons_rv$signal) {
+        enable("signal_button")
+      } else {
+        disable("signal_button")
+      }
+    })
+    
     observeEvent(input$reset_button, {
       
       # Show confirmation dialog ----
@@ -52,9 +64,8 @@ resetServer <- function(id, land_rv, buttons_rv, main_session = NULL) {
       
       # Reset all button states ----
       buttons_rv$upload <- TRUE
-      buttons_rv$crosscut <- FALSE
-      buttons_rv$profile <- FALSE
       buttons_rv$signal <- FALSE
+      buttons_rv$reset <- FALSE
       
       # Clear RGL scene ----
       try({

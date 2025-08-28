@@ -28,24 +28,9 @@ ui <- page_sidebar(
   # Sidebar ----
   sidebar = sidebar(
     
-    # Upload bullet land ----
-    accordion(
-      id = "acc",
-      multiple = FALSE,
-      open = FALSE,
-      accordion_panel(
-        "Get Started",
-        uploadUI("upload1")
-      ),
-      accordion_panel(
-        "Crosscut and Grooves",
-        crosscutUI("crosscut1")
-      ),
-      accordion_panel(
-        "Signal",
-        signalUI("signal1")
-      )
-    ),
+    uploadUI("upload1"),
+    crosscutUI("crosscut1"),
+    signalUI("signal1"),
     downloadUI("download1"),
     resetUI("reset1")
     

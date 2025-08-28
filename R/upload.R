@@ -62,11 +62,14 @@ uploadServer <- function(id, land_rv, buttons_rv) {
       land_rv$resolution <- x3ptools::x3p_get_scale(land_rv$df$x3p[[1]])
       land_rv$x3p_dims <- dim(land_rv$df$x3p[[1]])
       
-      # Enable crosscut button ----
-      buttons_rv$crosscut <- TRUE
-      
       # Disable upload button until reset button is clicked ----
       buttons_rv$upload <- FALSE
+      
+      # Enable signal button ----
+      buttons_rv$signal <- TRUE
+      
+      # Enable reset button ----
+      buttons_rv$reset <- TRUE
       
       # Show message ----
       showNotification(
