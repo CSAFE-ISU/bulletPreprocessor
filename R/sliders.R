@@ -50,7 +50,6 @@ slidersServer <- function(id, land_rv, arg_name, label, max_value) {
       
       # renderUI requires tagList to render multiple inputs
       tagList(
-        br(),
         sliderInput(
           inputId = session$ns("slider"), # Important: use session$ns() to namespace the ID" 
           label = label,
