@@ -21,8 +21,8 @@ displayPlotCardServer <- function(id, plot_reactive = NULL, header_title = NULL)
       
       card(
         card_header(
-          class = app_config$display_params$card_header_class, 
-          header_title = header_title
+          class = app_config$display_params$card_header_class,
+          header_title
         ),
         full_screen = app_config$display_params$card_full_screen,
         plotOutput(session$ns("plot"))

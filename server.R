@@ -62,13 +62,10 @@ server <- function(input, output, session) {
   uploadServer("upload1", land, buttons)
 
   # Display land ----
-  landScanServer("land_scan1", land) 
+  landScanServer("land_scan1", land, buttons) 
   
   # Crosscut ----
   crosscutServer("crosscut1", land, buttons)
-  
-  # Grooves ----
-  profileServer("profile1", land, buttons, main_session = session)
   
   # Signal ----
   signalServer("signal1", land, buttons, main_session = session)

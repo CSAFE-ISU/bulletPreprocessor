@@ -73,8 +73,8 @@ crosscutServer <- function(id, land_rv, buttons_rv) {
         max_value = land_rv$x3p_dims[1]
       )
       
-      # Enable grooves button ----
-      buttons_rv$profile <- TRUE
+      # Enable signal button ----
+      buttons_rv$signal <- TRUE
       
       showNotification(
         "Starting crosscut location found. Adjust with slider if needed.", 

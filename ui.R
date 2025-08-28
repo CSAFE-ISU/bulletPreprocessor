@@ -42,10 +42,6 @@ ui <- page_sidebar(
         crosscutUI("crosscut1")
       ),
       accordion_panel(
-        "Profile",
-        profileUI("profile1"),
-      ),
-      accordion_panel(
         "Signal",
         signalUI("signal1")
       )
@@ -59,7 +55,6 @@ ui <- page_sidebar(
     title = "Visualizations",
     id = "main_tabs",
     nav_panel("Land with Crosscut and Grooves", landScanUI("land_scan1")),
-    nav_panel("Profile", profileTabUI("profile1")),
     nav_panel("Signal", signalTabUI("signal1"))
   )
  

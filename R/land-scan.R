@@ -5,7 +5,7 @@ landScanUI <- function(id) {
   )
 }
 
-landScanServer <- function(id, land_rv) {
+landScanServer <- function(id, land_rv, buttons_rv) {
   moduleServer(id, function(input, output, session) {
     
     # Render land scan ----
@@ -20,7 +20,7 @@ landScanServer <- function(id, land_rv) {
         land_rv$df$x3p[[1]] %>%
           x3p_sample(m=app_config$display_params$scan_sample_rate) %>%
           x3p_image(
-            size = app_config$display_params$scan_size, 
+            # size = app_config$display_params$scan_size,
             zoom = app_config$display_params$scan_zoom
           )
       } else {
@@ -42,7 +42,7 @@ landScanServer <- function(id, land_rv) {
           ) %>%
           x3p_sample(m=app_config$display_params$scan_sample_rate) %>%
           x3p_image(
-            size = app_config$display_params$scan_size, 
+            # size = app_config$display_params$scan_size,
             zoom = app_config$display_params$scan_zoom
           )
       }
@@ -57,15 +57,24 @@ landScanServer <- function(id, land_rv) {
       req(land_rv$bullet)
       req(land_rv$land)
       
-      card(
-        card_header(
-          class = app_config$display_params$card_header_class, 
-          paste(land_rv$barrel, land_rv$bullet, land_rv$land)
-        ),
-        full_screen = app_config$display_params$card_full_screen,
-        rglwidgetOutput(session$ns("land_scan"), width = "auto"),
+      tagList(
+        layout_column_wrap(
+          card(
+            card_header(
+              class = app_config$display_params$card_header_class, 
+              paste(land_rv$barrel, land_rv$bullet, land_rv$land, "- Crosscut and Grooves")
+            ),
+            fill = TRUE,
+            full_screen = app_config$display_params$card_full_screen,
+            rglwidgetOutput(session$ns("land_scan"), width = "auto"),
+          ),
+          profileTabUI(session$ns("profile1"))
+        )
       )
+
     })
+    
+    profileServer("profile1", land_rv, buttons_rv, session)
     
   })
 }

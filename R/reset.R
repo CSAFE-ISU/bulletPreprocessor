@@ -67,7 +67,7 @@ resetServer <- function(id, land_rv, buttons_rv, main_session = NULL) {
         nav_select(
           session = main_session, 
           "main_tabs", 
-          selected = "Land with Crosscut"
+          selected = "Land with Crosscut and Grooves"
         )
       }
       
