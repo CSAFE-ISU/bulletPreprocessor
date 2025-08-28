@@ -53,6 +53,7 @@ server <- function(input, output, session) {
   
   # Reactive object to store button status: TRUE = on, FALSE = OFF ----
   buttons <- reactiveValues(
+    upload = TRUE,
     crosscut = FALSE,
     profile = FALSE,
     signal = FALSE

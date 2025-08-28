@@ -44,15 +44,14 @@ resetServer <- function(id, land_rv, buttons_rv, main_session = NULL) {
       land_rv$ccdata <- NULL
       land_rv$df <- NULL
       land_rv$grooves <- NULL
-      land_rv$left_groove <- NULL
-      land_rv$right_groove <- NULL
       land_rv$land <- NULL
       land_rv$resolution <- NULL
       land_rv$sigs <- NULL
       land_rv$study <- NULL
       land_rv$x3p_dims <- NULL
       
-      # Reset all button states to FALSE ----
+      # Reset all button states ----
+      buttons_rv$upload <- TRUE
       buttons_rv$crosscut <- FALSE
       buttons_rv$profile <- FALSE
       buttons_rv$signal <- FALSE

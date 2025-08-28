@@ -7,7 +7,7 @@ uploadUI <- function(id) {
       choices = c("Hamby 44", "Houston Group 1", "Houston Group 2", "Houston Group 3", "Phoenix"), 
       selected = app_config$ui_params$default_study),
     fileInput(
-      ns("land_upload"), 
+      ns("upload_button"), 
       "Upload x3p file", 
       accept = app_config$file_params$allowed_extensions, 
       multiple = TRUE
@@ -18,6 +18,15 @@ uploadUI <- function(id) {
 uploadServer <- function(id, land_rv, buttons_rv) {
   moduleServer(id, function(input, output, session) {
     
+    # Switch the button on or off ----
+    observe({
+      if (buttons_rv$upload) {
+        enable("upload_button")
+      } else {
+        disable("upload_button")
+      }
+    })
+    
     observeEvent(input$study, {
       # Show message ----
       showNotification(
@@ -27,7 +36,7 @@ uploadServer <- function(id, land_rv, buttons_rv) {
       )
     }, ignoreInit = TRUE)
     
-    observeEvent(input$land_upload, {
+    observeEvent(input$upload_button, {
       
       # Delete temp directory if it already exists ----
       unlink(app_config$file_params$temp_dir, recursive = TRUE)
@@ -35,8 +44,8 @@ uploadServer <- function(id, land_rv, buttons_rv) {
       # Create temp directory and save land in it ----
       dir.create(app_config$file_params$temp_dir, showWarnings = FALSE)
       file.copy(
-        input$land_upload$datapath, 
-        file.path(app_config$file_params$temp_dir, input$land_upload$name)
+        input$upload_button$datapath, 
+        file.path(app_config$file_params$temp_dir, input$upload_button$name)
       )
       
       # Store study ----
@@ -45,16 +54,19 @@ uploadServer <- function(id, land_rv, buttons_rv) {
       # Load bullet and get metadata ----
       land_rv$df <- read_bullet(app_config$file_params$temp_dir)
       land_rv$barrel <- get_barrel_name(
-        filename = input$land_upload$name, 
+        filename = input$upload_button$name, 
         study = land_rv$study
       )
-      land_rv$bullet <- get_bullet_name(input$land_upload$name)
-      land_rv$land <- get_land_name(input$land_upload$name)
+      land_rv$bullet <- get_bullet_name(input$upload_button$name)
+      land_rv$land <- get_land_name(input$upload_button$name)
       land_rv$resolution <- x3ptools::x3p_get_scale(land_rv$df$x3p[[1]])
       land_rv$x3p_dims <- dim(land_rv$df$x3p[[1]])
       
       # Enable crosscut button ----
       buttons_rv$crosscut <- TRUE
+      
+      # Disable upload button until reset button is clicked ----
+      buttons_rv$upload <- FALSE
       
       # Show message ----
       showNotification(
