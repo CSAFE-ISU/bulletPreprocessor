@@ -29,11 +29,11 @@ ui <- page_sidebar(
   sidebar = sidebar(
     
     uploadUI("upload1"),
+    resetUI("reset1"),
     crosscutUI("crosscut1"),
     signalUI("signal1"),
-    downloadUI("download1"),
-    resetUI("reset1")
-    
+    downloadUI("download1")
+
   ),
   
   navset_card_underline(
