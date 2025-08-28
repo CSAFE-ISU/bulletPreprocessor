@@ -65,7 +65,10 @@ signalServer <- function(id, land_rv, buttons_rv, main_session = NULL) {
       req(land_rv$grooves)
       
       tagList(
-        actionButton(session$ns("signal_button"), "Get signal")
+        tooltip(
+          actionButton(session$ns("signal_button"), "Get signal"),
+          "Extract the signal at the current crosscut location. Only the signal between the left and right grooves will be kept."
+        )
       )
     })
     

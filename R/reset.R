@@ -92,8 +92,10 @@ resetServer <- function(id, land_rv, buttons_rv, main_session = NULL) {
       req(buttons_rv$reset)
       
       tagList(
-        helpText("Click reset to upload a new file."),
-        actionButton(session$ns("reset_button"), "Reset All")
+        tooltip(
+          actionButton(session$ns("reset_button"), "Reset All"),
+          "Click Reset All to upload a new file."
+        )
       )
       
     })
