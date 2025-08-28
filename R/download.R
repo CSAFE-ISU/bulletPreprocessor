@@ -1,7 +1,7 @@
 downloadUI <- function(id) {
   ns <- NS(id)
   tagList(
-    downloadButton(ns("download_button"), "Download")
+    uiOutput(ns("download_buttonUI"))
   )
 }
 
@@ -16,6 +16,12 @@ downloadServer <- function(id, land_rv, buttons_rv) {
         saveRDS(land_rv$output_df, file)
       }
     )
+    
+    output$download_buttonUI <- renderUI({
+      req(land_rv$sigs)
+      
+      downloadButton(session$ns("download_button"), "Download")
+    })
     
   })
 }

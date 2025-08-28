@@ -74,7 +74,7 @@ landScanServer <- function(id, land_rv, buttons_rv) {
 
     })
     
-    profileServer("profile1", land_rv, buttons_rv, session)
+    profileServer("profile1", land_rv, buttons_rv)
     
   })
 }

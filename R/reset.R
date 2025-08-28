@@ -77,15 +77,6 @@ resetServer <- function(id, land_rv, buttons_rv, main_session = NULL) {
         )
       }
       
-      # Open Get Started accordion panel ----
-      if (!is.null(main_session)) {
-        accordion_panel_open(
-          id = "acc", 
-          values = c("Get Started"), 
-          session = main_session
-        )
-      }
-      
       # Close the modal ----
       removeModal()
       
