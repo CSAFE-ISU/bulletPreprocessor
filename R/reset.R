@@ -1,11 +1,7 @@
 resetUI <- function(id) {
   ns <- NS(id)
   tagList(
-    actionButton(
-      ns("reset_button"), 
-      "Reset All", 
-      style = "width: 100%; margin-top: 10px;"
-    )
+    uiOutput(ns("reset_buttonUI"))
   )
 }
 
@@ -17,10 +13,10 @@ resetServer <- function(id, land_rv, buttons_rv, main_session = NULL) {
     
     # Switch the button on or off ----
     observe({
-      if (buttons_rv$signal) {
-        enable("signal_button")
+      if (buttons_rv$reset) {
+        enable("reset_button")
       } else {
-        disable("signal_button")
+        disable("reset_button")
       }
     })
     
@@ -99,6 +95,12 @@ resetServer <- function(id, land_rv, buttons_rv, main_session = NULL) {
         type = "message", 
         duration = app_config$display_params$notification_duration
       )
+    })
+    
+    output$reset_buttonUI <- renderUI({
+      req(buttons_rv$reset)
+      
+      actionButton(session$ns("reset_button"), "Reset All")
     })
     
   })
