@@ -5,7 +5,7 @@ slidersUI <- function(id) {
   )
 }
 
-slidersServer <- function(id, land_rv, arg_name, label, max_value) {
+slidersServer <- function(id, land_rv, arg_name, label, min_value, max_value) {
   moduleServer(id, function(input, output, session) {
     
     # Update value in land reactive values ----
@@ -45,6 +45,7 @@ slidersServer <- function(id, land_rv, arg_name, label, max_value) {
     # Display slider ----
     output$slider <- renderUI({
       req(label)
+      req(min_value)
       req(max_value)
       req(land_rv[[arg_name]])
       
@@ -53,7 +54,7 @@ slidersServer <- function(id, land_rv, arg_name, label, max_value) {
         sliderInput(
           inputId = session$ns("slider"), # Important: use session$ns() to namespace the ID" 
           label = label,
-          min = 0, 
+          min = min_value, 
           max = max_value, 
           value = land_rv[[arg_name]]
         ),

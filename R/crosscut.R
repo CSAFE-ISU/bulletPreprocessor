@@ -43,6 +43,7 @@ crosscutServer <- function(id, land_rv, buttons_rv) {
         land_rv = land_rv,
         arg_name = "crosscut", 
         label = "Crosscut",
+        min_value = 0,
         max_value = land_rv$x3p_dims[2]
       )
       
@@ -56,13 +57,15 @@ crosscutServer <- function(id, land_rv, buttons_rv) {
         land_rv = land_rv,
         arg_name = "left_scan", 
         label = "Left groove",
-        max_value = land_rv$x3p_dims[1]
+        min_value = 0,
+        max_value = floor(land_rv$x3p_dims[1] / 3)
       )
       slidersServer(
         id = "right_scan_slider", 
         land_rv = land_rv, 
         arg_name = "right_scan", 
         label = "Right groove",
+        min_value = floor(land_rv$x3p_dims[1] / 3),
         max_value = land_rv$x3p_dims[1]
       )
       

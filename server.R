@@ -21,10 +21,10 @@ source("R/sliders.R")
 source("R/upload.R")
 
 
-# Increase maximum file upload size
+# Increase maximum file upload size ----
 options(shiny.maxRequestSize = app_config$file_params$max_file_size)
 
-# TRUE prevents popups. FALSE allows popups.
+# TRUE prevents popups. FALSE allows popups ----
 options(rgl.useNULL = app_config$display_params$rgl_popups_null)
 
 
