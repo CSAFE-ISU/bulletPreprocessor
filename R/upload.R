@@ -1,23 +1,7 @@
 uploadUI <- function(id) {
   ns <- NS(id)
   tagList(
-    tooltip(
-      selectInput(
-        ns("study"), 
-        label = "Select bullet study", 
-        choices = c("Hamby 44", "Houston Group 1", "Houston Group 2", "Houston Group 3", "Phoenix"), 
-        selected = app_config$ui_params$default_study),
-      "Each bullet study uses a different naming convention. The app will use the naming convention to determine the barrel and bullet names from the filename."
-    ),
-    tooltip(
-      fileInput(
-        ns("upload_button"), 
-        "Upload x3p file", 
-        accept = app_config$file_params$allowed_extensions, 
-        multiple = FALSE
-      ),
-      "Upload an image of a single land engraved area saved in x3p file format."
-    )
+    uiOutput(ns("upload_buttonUI"))
   )
 }
 
@@ -84,6 +68,29 @@ uploadServer <- function(id, land_rv, buttons_rv) {
         duration = app_config$display_params$notification_duration
       )
       
+    })
+    
+    output$upload_buttonUI <- renderUI({
+      req(buttons_rv$upload)
+      tagList(
+        tooltip(
+          selectInput(
+            session$ns("study"), 
+            label = "Select bullet study", 
+            choices = c("Hamby 44", "Houston Group 1", "Houston Group 2", "Houston Group 3", "Phoenix"), 
+            selected = app_config$ui_params$default_study),
+          "Each bullet study uses a different naming convention. The app will use the naming convention to determine the barrel and bullet names from the filename."
+        ),
+        tooltip(
+          fileInput(
+            session$ns("upload_button"), 
+            "Upload x3p file", 
+            accept = app_config$file_params$allowed_extensions, 
+            multiple = FALSE
+          ),
+          "Upload an image of a single land engraved area saved in x3p file format."
+        )
+      )
     })
   })
 }
