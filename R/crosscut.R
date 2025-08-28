@@ -67,7 +67,7 @@ crosscutServer <- function(id, land_rv, buttons_rv) {
       )
       
       showNotification(
-        "Starting crosscut and grooves found. Adjust with slider if needed.", 
+        "Starting crosscut and grooves found. Adjust with sliders if needed.", 
         type = "message", 
         duration = app_config$display_params$notification_duration
       )
