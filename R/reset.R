@@ -100,7 +100,11 @@ resetServer <- function(id, land_rv, buttons_rv, main_session = NULL) {
     output$reset_buttonUI <- renderUI({
       req(buttons_rv$reset)
       
-      actionButton(session$ns("reset_button"), "Reset All")
+      tagList(
+        helpText("Click reset to upload a new file."),
+        actionButton(session$ns("reset_button"), "Reset All")
+      )
+      
     })
     
   })
