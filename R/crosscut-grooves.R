@@ -17,7 +17,7 @@ crosscutGroovesTabUI <- function(id) {
 crosscutGroovesServer <- function(id, land_rv, buttons_rv) {
   moduleServer(id, function(input, output, session) {
     
-    # Display and update the crosscut ----
+    # Calculate and update the crosscut ----
     observeEvent(land_rv$df, {
       req(land_rv$df$x3p)
       req(land_rv$x3p_dims[2])
@@ -26,7 +26,7 @@ crosscutGroovesServer <- function(id, land_rv, buttons_rv) {
       land_rv$crosscut <- land_rv$df$x3p[[1]] %>% 
         x3p_crosscut_optimize(ylimits = app_config$proc_params$crosscut_ylimits)
       
-      # Get crosscut profile data ----
+      # Get crosscut profile data at default crosscut ----
       land_rv$ccdata <- x3p_crosscut(x = land_rv$df$x3p[[1]], y = land_rv$crosscut)
       
       # Get default grooves ----
@@ -100,48 +100,40 @@ crosscutGroovesServer <- function(id, land_rv, buttons_rv) {
     observeEvent(land_rv$crosscut, {
       req(land_rv$df)
       req(land_rv$df$x3p)
-
+      
       land_rv$ccdata <- x3p_crosscut(x = land_rv$df$x3p[[1]], y = land_rv$crosscut)
     })
     
     # Render land scan ----
     output$land_scan <- renderRglwidget({
+      req(land_rv$crosscut)
       req(land_rv$df)
       req(land_rv$df$x3p)
       
       # Clear any existing RGL scenes
       rgl::clear3d()
       
-      if (is.null(land_rv$crosscut)) {
-        land_rv$df$x3p[[1]] %>%
-          x3p_sample(m=app_config$display_params$scan_sample_rate) %>%
-          x3p_image(
-            # size = app_config$display_params$scan_size,
-            zoom = app_config$display_params$scan_zoom
-          )
-      } else {
-        land_rv$df$x3p[[1]] %>%
-          x3p_add_hline(  # crosscut
-            yintercept = land_rv$crosscut, 
-            size = app_config$display_params$crosscut_size,
-            color = app_config$display_params$crosscut_color
-          ) %>%
-          x3p_add_vline(  # left groove
-            xintercept = land_rv$left_scan,
-            size = app_config$display_params$groove_size,
-            color = app_config$display_params$groove_left_color
-          ) %>%
-          x3p_add_vline(  # right groove
-            xintercept = land_rv$right_scan,
-            size = app_config$display_params$groove_size,
-            color = app_config$display_params$groove_right_color
-          ) %>%
-          x3p_sample(m=app_config$display_params$scan_sample_rate) %>%
-          x3p_image(
-            # size = app_config$display_params$scan_size,
-            zoom = app_config$display_params$scan_zoom
-          )
-      }
+      land_rv$df$x3p[[1]] %>%
+        x3p_add_hline(  # crosscut
+          yintercept = land_rv$crosscut, 
+          size = app_config$display_params$crosscut_size,
+          color = app_config$display_params$crosscut_color
+        ) %>%
+        x3p_add_vline(  # left groove
+          xintercept = land_rv$left_scan,
+          size = app_config$display_params$groove_size,
+          color = app_config$display_params$groove_left_color
+        ) %>%
+        x3p_add_vline(  # right groove
+          xintercept = land_rv$right_scan,
+          size = app_config$display_params$groove_size,
+          color = app_config$display_params$groove_right_color
+        ) %>%
+        x3p_sample(m=app_config$display_params$scan_sample_rate) %>%
+        x3p_image(
+          size = app_config$display_params$scan_size,
+          zoom = app_config$display_params$scan_zoom
+        )
       
       rglwidget()
     })
