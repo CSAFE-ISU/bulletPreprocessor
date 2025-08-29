@@ -35,20 +35,18 @@ server <- function(input, output, session) {
   land <- reactiveValues(
     barrel = NULL,  # barrel name
     bullet = NULL,  # bullet name
-    crosscut = NULL,  # crosscut y value
-    left_scan = NULL,  # left groove location
-    right_scan = NULL,  # right groove location
     ccdata = NULL,  # data frame of crosscut x-y coordinates and surface height
+    crosscut = NULL,  # crosscut y value
     df = NULL,  # data frame of source and x3p from read_bullet()
     grooves = NULL,  # named vector of left and right groove x values
-    left_groove = NULL, # left groove x value. Easier to access than grooves[[1]][1]
-    right_groove = NULL, # right groove x value. Easier to access than grooves[[1]][2]
     land = NULL,  # land name
+    left_scan = NULL,  # left groove location
+    output_df = NULL,  # data frame for download
     resolution = NULL,  # resolution of x3p scan
+    right_scan = NULL,  # right groove location
     sigs = NULL,  # data frame of signal info
     study = NULL,  # name of bullet study
-    x3p_dims = NULL,  # dimensions of x3p
-    output_df = NULL  # data frame for download
+    x3p_dims = NULL  # dimensions of x3p
   )
   
   # Reactive object to store button status: TRUE = on, FALSE = OFF ----
