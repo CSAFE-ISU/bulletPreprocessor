@@ -17,11 +17,13 @@ displayPlotCardServer <- function(id, plot_reactive = NULL, header_title = NULL)
     # Render the card with the plot
     output$plot_card <- renderUI({
       req(plot_reactive())
-      req(header_title)
       
+      # Check if reactive first, then make sure header title is truthy to avoid
+      # problems with header_title is NULL and reactive
       if (is.reactive(header_title)) {
         header_title <- header_title()
       }
+      req(header_title)
       
       card(
         card_header(
