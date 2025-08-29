@@ -81,11 +81,19 @@ signalServer <- function(id, land_rv, buttons_rv, main_session = NULL) {
       plot_signal(land_rv$sigs)
     })
     
+    # Create reactive header title ----
+    signal_header_title <- reactive({
+      req(land_rv$barrel)
+      req(land_rv$bullet)
+      req(land_rv$land)
+      paste(land_rv$barrel, land_rv$bullet, land_rv$land, "- Signal")
+    })
+    
     # Display plot in card ----
     displayPlotCardServer(
       "signal_plot", 
       plot_reactive = signal_plot_reactive, 
-      header_title = "Signal"
+      header_title = signal_header_title
     )
     
   })

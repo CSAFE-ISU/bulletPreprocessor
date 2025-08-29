@@ -7,6 +7,13 @@ crosscutGroovesUI <- function(id) {
   )
 }
 
+crosscutGroovesTabUI <- function(id) {
+  ns <- NS(id)
+  tagList(
+    uiOutput(ns("land_scanUI"))
+  )
+}
+
 crosscutGroovesServer <- function(id, land_rv, buttons_rv) {
   moduleServer(id, function(input, output, session) {
     
@@ -87,7 +94,6 @@ crosscutGroovesServer <- function(id, land_rv, buttons_rv) {
     })
     
     # Update crosscut data ----
-    
     # Crosscut data is calculated at the default crosscut location when an x3p
     # is uploaded. This updates the crosscut data when the crosscut location
     # changes.
@@ -96,6 +102,64 @@ crosscutGroovesServer <- function(id, land_rv, buttons_rv) {
       req(land_rv$df$x3p)
 
       land_rv$ccdata <- x3p_crosscut(x = land_rv$df$x3p[[1]], y = land_rv$crosscut)
+    })
+    
+    # Render land scan ----
+    output$land_scan <- renderRglwidget({
+      req(land_rv$df)
+      req(land_rv$df$x3p)
+      
+      # Clear any existing RGL scenes
+      rgl::clear3d()
+      
+      if (is.null(land_rv$crosscut)) {
+        land_rv$df$x3p[[1]] %>%
+          x3p_sample(m=app_config$display_params$scan_sample_rate) %>%
+          x3p_image(
+            # size = app_config$display_params$scan_size,
+            zoom = app_config$display_params$scan_zoom
+          )
+      } else {
+        land_rv$df$x3p[[1]] %>%
+          x3p_add_hline(  # crosscut
+            yintercept = land_rv$crosscut, 
+            size = app_config$display_params$crosscut_size,
+            color = app_config$display_params$crosscut_color
+          ) %>%
+          x3p_add_vline(  # left groove
+            xintercept = land_rv$left_scan,
+            size = app_config$display_params$groove_size,
+            color = app_config$display_params$groove_left_color
+          ) %>%
+          x3p_add_vline(  # right groove
+            xintercept = land_rv$right_scan,
+            size = app_config$display_params$groove_size,
+            color = app_config$display_params$groove_right_color
+          ) %>%
+          x3p_sample(m=app_config$display_params$scan_sample_rate) %>%
+          x3p_image(
+            # size = app_config$display_params$scan_size,
+            zoom = app_config$display_params$scan_zoom
+          )
+      }
+      
+      rglwidget()
+    })
+    
+    output$land_scanUI <- renderUI({
+      req(land_rv$barrel)
+      req(land_rv$bullet)
+      req(land_rv$land)
+      
+      card(
+        card_header(
+          class = app_config$display_params$card_header_class, 
+          paste(land_rv$barrel, land_rv$bullet, land_rv$land, "- Crosscut and Grooves")
+        ),
+        fill = TRUE,
+        full_screen = app_config$display_params$card_full_screen,
+        rglwidgetOutput(session$ns("land_scan"), width = "auto"),
+      )
     })
     
   })

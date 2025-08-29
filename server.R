@@ -64,9 +64,6 @@ server <- function(input, output, session) {
   # Display land ----
   landScanServer("land_scan1", land, buttons) 
   
-  # Crosscut and Grooves ----
-  crosscutGroovesServer("crosscut1", land, buttons)
-  
   # Signal ----
   signalServer("signal1", land, buttons, main_session = session)
   

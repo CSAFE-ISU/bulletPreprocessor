@@ -30,7 +30,7 @@ ui <- page_sidebar(
     
     uploadUI("upload1"),
     resetUI("reset1"),
-    crosscutGroovesUI("crosscut1"),
+    landScanUI("land_scan1"),
     signalUI("signal1"),
     downloadUI("download1")
 
@@ -39,7 +39,7 @@ ui <- page_sidebar(
   navset_card_underline(
     title = "Visualizations",
     id = "main_tabs",
-    nav_panel("Land with Crosscut and Grooves", landScanUI("land_scan1")),
+    nav_panel("Land with Crosscut and Grooves", landScanTabUI("land_scan1")),
     nav_panel("Signal", signalTabUI("signal1"))
   )
  
