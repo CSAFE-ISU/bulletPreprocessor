@@ -5,7 +5,7 @@ profileTabUI <- function(id) {
   )
 }
 
-profileServer <- function(id, land_rv, buttons_rv) {
+profileServer <- function(id, land_rv, buttons_rv, profile_header_title) {
   moduleServer(id, function(input, output, session) {
     
     # Create reactive plot function ----
@@ -20,10 +20,18 @@ profileServer <- function(id, land_rv, buttons_rv) {
                    right_groove = land_rv$right_scan)
     })
     
+    # Create reactive header title ----
+    profile_header_title <- reactive({
+      req(land_rv$barrel)
+      req(land_rv$bullet)
+      req(land_rv$land)
+      paste(land_rv$barrel, land_rv$bullet, land_rv$land, "- Profile at Crosscut")
+    })
+    
     # Display plot in card ----
     displayPlotCardServer("profile_plot", 
                           plot_reactive = profile_plot_reactive, 
-                          header_title = paste(land_rv$barrel, land_rv$bullet, land_rv$land, "- Profile at Crosscut"))
+                          header_title = profile_header_title)
     
   })
 }

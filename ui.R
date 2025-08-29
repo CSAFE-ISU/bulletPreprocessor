@@ -4,7 +4,7 @@ library(shinyFiles)
 library(shinyjs)
 
 source("R/config.R")
-source("R/crosscut.R")
+source("R/crosscut-grooves.R")
 source("R/display.R")
 source("R/download.R")
 source("R/profile.R")
@@ -30,7 +30,7 @@ ui <- page_sidebar(
     
     uploadUI("upload1"),
     resetUI("reset1"),
-    crosscutUI("crosscut1"),
+    crosscutGroovesUI("crosscut1"),
     signalUI("signal1"),
     downloadUI("download1")
 

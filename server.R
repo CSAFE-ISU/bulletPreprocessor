@@ -9,7 +9,7 @@ library(stringr)
 library(x3ptools)
 
 source("R/config.R")
-source("R/crosscut.R")
+source("R/crosscut-grooves.R")
 source("R/display.R")
 source("R/download.R")
 source("R/profile.R")
@@ -65,7 +65,7 @@ server <- function(input, output, session) {
   landScanServer("land_scan1", land, buttons) 
   
   # Crosscut and Grooves ----
-  crosscutServer("crosscut1", land, buttons)
+  crosscutGroovesServer("crosscut1", land, buttons)
   
   # Signal ----
   signalServer("signal1", land, buttons, main_session = session)

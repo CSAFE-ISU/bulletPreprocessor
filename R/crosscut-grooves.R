@@ -1,4 +1,4 @@
-crosscutUI <- function(id) {
+crosscutGroovesUI <- function(id) {
   ns <- NS(id)
   tagList(
     slidersUI(ns("crosscut_slider")),
@@ -7,7 +7,7 @@ crosscutUI <- function(id) {
   )
 }
 
-crosscutServer <- function(id, land_rv, buttons_rv) {
+crosscutGroovesServer <- function(id, land_rv, buttons_rv) {
   moduleServer(id, function(input, output, session) {
     
     # Display and update the crosscut ----

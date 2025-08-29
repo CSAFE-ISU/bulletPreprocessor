@@ -19,6 +19,10 @@ displayPlotCardServer <- function(id, plot_reactive = NULL, header_title = NULL)
       req(plot_reactive())
       req(header_title)
       
+      if (is.reactive(header_title)) {
+        header_title <- header_title()
+      }
+      
       card(
         card_header(
           class = app_config$display_params$card_header_class,
