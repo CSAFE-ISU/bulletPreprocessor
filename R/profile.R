@@ -5,7 +5,7 @@ profileTabUI <- function(id) {
   )
 }
 
-profileServer <- function(id, land_rv, buttons_rv, profile_header_title) {
+profileServer <- function(id, land_rv, buttons_rv) {
   moduleServer(id, function(input, output, session) {
     
     # Create reactive plot function ----
