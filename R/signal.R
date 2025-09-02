@@ -37,6 +37,11 @@ signalServer <- function(id, land_rv, buttons_rv, main_session = NULL) {
         span1 = app_config$proc_params$signal_span1, 
         span2 = app_config$proc_params$signal_span2
       )
+      validate(
+        need(land_rv$sigs, "sigs needs to be truthy"),
+        need(is.data.frame(land_rv$sigs), "sigs needs to be a data frame"),
+        need(nrow(land_rv$sigs) > 0, "sigs needs to have more than one row")
+      )
       
       showNotification(
         "Final groove locations saved.", 
@@ -60,6 +65,7 @@ signalServer <- function(id, land_rv, buttons_rv, main_session = NULL) {
     })
     
     output$signal_buttonUI <- renderUI({
+      req(buttons_rv$signal)
       req(land_rv$df)
       req(land_rv$ccdata)
       req(land_rv$grooves)
