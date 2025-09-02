@@ -18,7 +18,7 @@ get_bullet_name <- function(filename) {
 }
 
 get_houston_barrel_name <- function(filename) {
-  return(stringr::str_extract(filename, "\\b[A-Z]+(?=\\s+Bullet)"))
+  return(str_extract(filename, "K[A-Z](?=\\s*-?\\s*Bullet)"))
 }
 
 get_land_name <- function(filename) {
