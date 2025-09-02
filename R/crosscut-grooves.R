@@ -18,7 +18,8 @@ crosscutGroovesServer <- function(id, land_rv, buttons_rv) {
   moduleServer(id, function(input, output, session) {
     
     # Calculate and update the crosscut ----
-    observeEvent(land_rv$df, {
+    observeEvent(land_rv$upload_confirmed, {
+      req(land_rv$df)
       req(land_rv$df$x3p)
       req(land_rv$x3p_dims[2])
       
@@ -106,6 +107,7 @@ crosscutGroovesServer <- function(id, land_rv, buttons_rv) {
     
     # Render land scan ----
     output$land_scan <- renderRglwidget({
+      req(land_rv$upload_confirmed)
       req(land_rv$crosscut)
       req(land_rv$df)
       req(land_rv$df$x3p)
@@ -139,6 +141,7 @@ crosscutGroovesServer <- function(id, land_rv, buttons_rv) {
     })
     
     output$land_scanUI <- renderUI({
+      req(land_rv$upload_confirmed)
       req(land_rv$barrel)
       req(land_rv$bullet)
       req(land_rv$land)

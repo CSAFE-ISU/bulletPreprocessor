@@ -57,6 +57,7 @@ resetServer <- function(id, land_rv, buttons_rv, main_session = NULL) {
       land_rv$right_scan <- NULL
       land_rv$sigs <- NULL
       land_rv$study <- NULL
+      land_rv$upload_confirmed <- NULL
       land_rv$x3p_dims <- NULL
 
       # Reset all button states ----

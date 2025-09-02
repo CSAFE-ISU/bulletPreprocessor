@@ -17,10 +17,13 @@ landScanServer <- function(id, land_rv, buttons_rv) {
     
     # Display land in card ----
     output$land_display <- renderUI({
-      req(land_rv$df)
-      req(land_rv$barrel)
-      req(land_rv$bullet)
-      req(land_rv$land)
+      req(land_rv$upload_confirmed)
+      validate(
+        need(land_rv$df, "Bullet data frame cannot be NA"),
+        need(land_rv$barrel, 'Barrel name cannot be NA'),
+        need(land_rv$bullet, 'Bullet name cannot be NA'),
+        need(land_rv$land, 'Land name cannot be NA')
+      )
       
       tagList(
         layout_column_wrap(

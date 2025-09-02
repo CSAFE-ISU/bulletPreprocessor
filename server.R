@@ -46,6 +46,7 @@ server <- function(input, output, session) {
     right_scan = NULL,  # right groove location
     sigs = NULL,  # data frame of signal info
     study = NULL,  # name of bullet study
+    upload_confirmed = NULL,
     x3p_dims = NULL  # dimensions of x3p
   )
   

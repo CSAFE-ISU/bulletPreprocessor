@@ -101,6 +101,8 @@ uploadServer <- function(id, land_rv, buttons_rv) {
     # Handle confirmation ----
     observeEvent(input$confirm_upload, {
       
+      land_rv$upload_confirmed <- TRUE
+      
       # Disable upload button until reset button is clicked ----
       buttons_rv$upload <- FALSE
       
@@ -136,6 +138,7 @@ uploadServer <- function(id, land_rv, buttons_rv) {
       land_rv$land <- NULL
       land_rv$resolution <- NULL
       land_rv$x3p_dims <- NULL
+      land_rv$upload_confirmed <- NULL
       
       # Close the modal ----
       removeModal()
