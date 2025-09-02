@@ -21,14 +21,24 @@ crosscutGroovesServer <- function(id, land_rv, buttons_rv) {
     observeEvent(land_rv$upload_confirmed, {
       req(land_rv$df)
       req(land_rv$df$x3p)
+      req(land_rv$x3p_dims[1])
       req(land_rv$x3p_dims[2])
       
       # Get default crosscut ----
       land_rv$crosscut <- land_rv$df$x3p[[1]] %>% 
         x3p_crosscut_optimize(ylimits = app_config$proc_params$crosscut_ylimits)
+      validate(
+        need(is.numeric(land_rv$crosscut), "Crosscut must be numeric"),
+        need(land_rv$crosscut > 0, "Crosscut must be a postive number"),
+        need(land_rv$crosscut < land_rv$x3p_dims[2], "Crosscut must be less than x3p height")
+      )
       
       # Get crosscut profile data at default crosscut ----
       land_rv$ccdata <- x3p_crosscut(x = land_rv$df$x3p[[1]], y = land_rv$crosscut)
+      validate(
+        need(is.data.frame(land_rv$ccdata), "ccdata must be a data frame"),
+        need(nrow(land_rv$ccdata) > 0, "ccdata must have more than one row")
+      )
       
       # Get default grooves ----
       # Store left and right grooves individually to make them easier to update
@@ -38,6 +48,11 @@ crosscutGroovesServer <- function(id, land_rv, buttons_rv) {
         method = app_config$proc_params$grooves_method, 
         adjust = app_config$proc_params$grooves_adjust, 
         return_plot = FALSE
+      )
+      validate(
+        need(grooves, "grooves must be truthy"),
+        need(is.list(grooves), "grooves must be a list"),
+        need(length(grooves[[1]]) == 2, "grooves must be a list containing a vector of length 2")
       )
       land_rv$left_scan <- land_rv$grooves[[1]][1]
       land_rv$right_scan <- land_rv$grooves[[1]][2]
@@ -89,6 +104,19 @@ crosscutGroovesServer <- function(id, land_rv, buttons_rv) {
     # land_rv$grooves is not.
     observeEvent(c(land_rv$left_scan, land_rv$right_scan), {
       req(land_rv$grooves)
+      req(land_rv$x3p_dims[1])
+      validate(
+        need(is.numeric(land_rv$left_scan), "Left groove must be numeric"),
+        need(land_rv$left_scan >= 0, "Left groove greater than or equal to zero"),
+        need(is.numeric(land_rv$right_scan), "Right groove must be numeric"),
+        need(land_rv$right_scan > land_rv$left_scan , "Right groove must be greater than left groove"),
+        need(land_rv$right_scan <= land_rv$x3p_dims[1], "Right groove must be less than or equal to x3p width")
+      )
+      validate(
+        need(grooves, "grooves must be truthy"),
+        need(is.list(grooves), "grooves must be a list"),
+        need(length(grooves[[1]]) == 2, "grooves must be a list containing a vector of length 2")
+      )
       
       land_rv$grooves[[1]][1] <- land_rv$left_scan
       land_rv$grooves[[1]][2] <- land_rv$right_scan

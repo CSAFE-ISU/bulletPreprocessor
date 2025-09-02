@@ -60,6 +60,7 @@ signalServer <- function(id, land_rv, buttons_rv, main_session = NULL) {
     })
     
     output$signal_buttonUI <- renderUI({
+      req(buttons_rv$signal)
       req(land_rv$df)
       req(land_rv$ccdata)
       req(land_rv$grooves)
