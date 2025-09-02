@@ -52,6 +52,55 @@ uploadServer <- function(id, land_rv, buttons_rv) {
       land_rv$resolution <- x3ptools::x3p_get_scale(land_rv$df$x3p[[1]])
       land_rv$x3p_dims <- dim(land_rv$df$x3p[[1]])
       
+      # Show confirmation modal with extracted metadata ----
+      showModal(modalDialog(
+        title = "Confirm File Information",
+        div(
+          h4("Please confirm the following information extracted from your file:"),
+          br(),
+          tags$table(
+            style = "width: 100%; border-collapse: collapse;",
+            tags$tr(
+              tags$td(strong("Study:"), style = "padding: 8px; border-bottom: 1px solid #ddd; width: 30%;"),
+              tags$td(land_rv$study, style = "padding: 8px; border-bottom: 1px solid #ddd;")
+            ),
+            tags$tr(
+              tags$td(strong("Barrel:"), style = "padding: 8px; border-bottom: 1px solid #ddd;"),
+              tags$td(land_rv$barrel, style = "padding: 8px; border-bottom: 1px solid #ddd;")
+            ),
+            tags$tr(
+              tags$td(strong("Bullet:"), style = "padding: 8px; border-bottom: 1px solid #ddd;"),
+              tags$td(land_rv$bullet, style = "padding: 8px; border-bottom: 1px solid #ddd;")
+            ),
+            tags$tr(
+              tags$td(strong("Land:"), style = "padding: 8px; border-bottom: 1px solid #ddd;"),
+              tags$td(land_rv$land, style = "padding: 8px; border-bottom: 1px solid #ddd;")
+            ),
+            tags$tr(
+              tags$td(strong("Resolution:"), style = "padding: 8px; border-bottom: 1px solid #ddd;"),
+              tags$td(paste(land_rv$resolution, "µm"), style = "padding: 8px; border-bottom: 1px solid #ddd;")
+            ),
+            tags$tr(
+              tags$td(strong("X3P Dimensions:"), style = "padding: 8px; border-bottom: 1px solid #ddd;"),
+              tags$td(paste(land_rv$x3p_dims[1], "x", land_rv$x3p_dims[2], "x", land_rv$x3p_dims[3]), 
+                      style = "padding: 8px; border-bottom: 1px solid #ddd;")
+            )
+          ),
+          br(),
+          p("If this information looks correct, click 'Confirm' to proceed. Otherwise, click 'Cancel' and upload a different file.")
+        ),
+        size = "m",
+        easyClose = FALSE,
+        footer = tagList(
+          actionButton(session$ns("cancel_upload"), "Cancel", class = "btn-secondary"),
+          actionButton(session$ns("confirm_upload"), "Confirm", class = "btn-primary")
+        )
+      ))
+    })
+    
+    # Handle confirmation ----
+    observeEvent(input$confirm_upload, {
+      
       # Disable upload button until reset button is clicked ----
       buttons_rv$upload <- FALSE
       
@@ -61,10 +110,40 @@ uploadServer <- function(id, land_rv, buttons_rv) {
       # Enable reset button ----
       buttons_rv$reset <- TRUE
       
-      # Show message ----
+      # Close the modal ----
+      removeModal()
+      
+      # Show success message ----
       showNotification(
-        "x3p file uploaded", 
+        "x3p file uploaded and confirmed", 
         type = "message", 
+        duration = app_config$display_params$notification_duration
+      )
+      
+    })
+    
+    # Handle cancellation ----
+    observeEvent(input$cancel_upload, {
+      
+      # Clean up: delete temp directory ----
+      unlink(app_config$file_params$temp_dir, recursive = TRUE)
+      
+      # Reset the land reactive values ----
+      land_rv$study <- NULL
+      land_rv$df <- NULL
+      land_rv$barrel <- NULL
+      land_rv$bullet <- NULL
+      land_rv$land <- NULL
+      land_rv$resolution <- NULL
+      land_rv$x3p_dims <- NULL
+      
+      # Close the modal ----
+      removeModal()
+      
+      # Show cancellation message ----
+      showNotification(
+        "Upload cancelled", 
+        type = "warning", 
         duration = app_config$display_params$notification_duration
       )
       
