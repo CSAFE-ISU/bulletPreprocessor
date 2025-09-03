@@ -47,7 +47,7 @@ uploadServer <- function(id, land_rv, buttons_rv) {
         filename = input$upload_button$name, 
         study = land_rv$study
       )
-      land_rv$bullet <- get_bullet_name(input$upload_button$name)
+      land_rv$bullet <- get_bullet_name(input$upload_button$name, land_rv$study)
       land_rv$land <- get_land_name(input$upload_button$name)
       land_rv$resolution <- x3ptools::x3p_get_scale(land_rv$df$x3p[[1]])
       land_rv$x3p_dims <- dim(land_rv$df$x3p[[1]])

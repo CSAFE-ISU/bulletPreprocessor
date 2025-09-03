@@ -1,3 +1,22 @@
+extract_houston_pattern <- function(filename) {
+  # Houston naming patterns
+  patterns <- list(
+    full = "Kit C[A-Z] - K[A-Z] Bullet \\d+ Land [1-6]",
+    no_kit = "Kit K[A-Z] - Bullet \\d+ Land [1-6]",
+    no_barrel = "Kit C[A-Z] - U\\d+ - Land [1-6]"
+  )
+  
+  if (str_detect(filename, patterns$full)) {
+    return(str_extract(filename, patterns$full))
+  } else if (str_detect(filename, patterns$no_kit)) {
+    return(str_extract(filename, patterns$no_kit))
+  } else if (str_detect(filename, patterns$no_barrel)) {
+    return(str_extract(filename, patterns$no_barrel))
+  } else {
+    stop("Unknown_Pattern")
+  }
+}
+
 get_barrel_name <- function(filename, study) {
   
   # Get barrel name based on bullet study
@@ -13,12 +32,42 @@ get_barrel_name <- function(filename, study) {
   return(barrel)
 }
 
-get_bullet_name <- function(filename) {
-  return(stringr::str_extract(filename, "Bullet \\d+"))
+get_bullet_name <- function(filename, study) {
+  # Get bullet name based on bullet study
+  if (stringr::str_detect(tolower(study), "houston")) {
+    bullet <- get_houston_bullet_name(filename)
+  } else {
+    stop("Bullet name not defined for study yet")
+  }
+  
+  # Add "Bullet" to beginning of name if needed
+  bullet <- ifelse(str_detect(bullet, "^Bullet"), bullet, paste("Bullet", bullet))
+  
+  return(bullet)
 }
 
 get_houston_barrel_name <- function(filename) {
-  return(str_extract(filename, "K[A-Z](?=\\s*-?\\s*Bullet)"))
+  pattern <- extract_houston_pattern(filename = filename)
+  
+  if (str_detect(pattern, "K[A-Z]")) {
+    return(str_extract(pattern, "K[A-Z]"))
+  } else if (str_detect(pattern, "U\\d+")) {
+    return(str_extract(pattern, "U\\d+"))
+  } else {
+    stop("Barrel not found in pattern")
+  }
+}
+
+get_houston_bullet_name <- function(filename) {
+  pattern <- extract_houston_pattern(filename = filename)
+  
+  if (str_detect(pattern, "Bullet \\d+")) {
+    return(str_extract(pattern, "Bullet \\d+"))
+  } else if (str_detect(pattern, "U\\d+")) {
+    return(str_extract(pattern, "U\\d+"))
+  } else {
+    stop("Bullet not found in pattern")
+  }
 }
 
 get_land_name <- function(filename) {
