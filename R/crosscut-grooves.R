@@ -50,9 +50,9 @@ crosscutGroovesServer <- function(id, land_rv, buttons_rv) {
         return_plot = FALSE
       )
       validate(
-        need(grooves, "grooves must be truthy"),
-        need(is.list(grooves), "grooves must be a list"),
-        need(length(grooves[[1]]) == 2, "grooves must be a list containing a vector of length 2")
+        need(land_rv$grooves, "grooves must be truthy"),
+        need(is.list(land_rv$grooves), "grooves must be a list"),
+        need(length(land_rv$grooves[[1]]) == 2, "grooves must be a list containing a vector of length 2")
       )
       land_rv$left_scan <- land_rv$grooves[[1]][1]
       land_rv$right_scan <- land_rv$grooves[[1]][2]
@@ -113,9 +113,9 @@ crosscutGroovesServer <- function(id, land_rv, buttons_rv) {
         need(land_rv$right_scan <= land_rv$x3p_dims[1], "Right groove must be less than or equal to x3p width")
       )
       validate(
-        need(grooves, "grooves must be truthy"),
-        need(is.list(grooves), "grooves must be a list"),
-        need(length(grooves[[1]]) == 2, "grooves must be a list containing a vector of length 2")
+        need(land_rv$grooves, "grooves must be truthy"),
+        need(is.list(land_rv$grooves), "grooves must be a list"),
+        need(length(land_rv$grooves[[1]]) == 2, "grooves must be a list containing a vector of length 2")
       )
       
       land_rv$grooves[[1]][1] <- land_rv$left_scan
