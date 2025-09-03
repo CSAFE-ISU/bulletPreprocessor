@@ -141,9 +141,16 @@ crosscutGroovesServer <- function(id, land_rv, buttons_rv) {
       req(land_rv$df$x3p)
       
       # Clear any existing RGL scenes
-      rgl::clear3d()
+      try({
+        rgl::clear3d()
+        rgl::gc3d()  # Force RGL garbage collection
+      }, silent = TRUE)
       
-      land_rv$df$x3p[[1]] %>%
+      # Create a temporary copy and process it to avoid modifying original
+      temp_x3p <- land_rv$df$x3p[[1]]
+      
+      # Create plot
+      x3p_plot <- temp_x3p %>%
         x3p_add_hline(  # crosscut
           yintercept = land_rv$crosscut, 
           size = app_config$display_params$crosscut_size,
@@ -159,12 +166,24 @@ crosscutGroovesServer <- function(id, land_rv, buttons_rv) {
           size = app_config$display_params$groove_size,
           color = app_config$display_params$groove_right_color
         ) %>%
-        x3p_sample(m=app_config$display_params$scan_sample_rate) %>%
+        x3p_sample(m=app_config$display_params$scan_sample_rate)
+      
+      # Render plot to RGL device immediately
+      x3p_plot %>%
         x3p_image(
           size = app_config$display_params$scan_size,
           zoom = app_config$display_params$scan_zoom
         )
       
+      # Clean up R objects. NOTE: Setting x3p_plot to NULL does not change the
+      # plot in the RGL device
+      x3p_plot <- NULL
+      temp_x3p <- NULL
+      
+      # Force garbage collection after processing
+      gc(verbose = FALSE)
+      
+      # Capture the already-rendered plot in the RGL device
       rglwidget()
     })
     

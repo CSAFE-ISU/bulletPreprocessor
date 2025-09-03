@@ -29,7 +29,7 @@ resetServer <- function(id, land_rv, buttons_rv, main_session = NULL) {
         easyClose = TRUE,
         footer = tagList(
           modalButton("Cancel"),
-          actionButton(session$ns("confirm_reset"), "Reset")
+          actionButton(session$ns("confirm_reset"), "Reset", class = "btn-primary")
         )
       ))
       
@@ -39,26 +39,13 @@ resetServer <- function(id, land_rv, buttons_rv, main_session = NULL) {
     observeEvent(input$confirm_reset, {
       
       # Delete temp directory if it exists ----
-      if (dir.exists(app_config$file_params$temp_dir)) {
-        unlink(app_config$file_params$temp_dir, recursive = TRUE)
-      }
-      
-      # Reset all land reactive values to NULL ----
-      land_rv$barrel <- NULL
-      land_rv$bullet <- NULL
-      land_rv$ccdata <- NULL
-      land_rv$crosscut <- NULL
-      land_rv$df <- NULL
-      land_rv$grooves <- NULL
-      land_rv$land <- NULL
-      land_rv$left_scan <- NULL
-      land_rv$output_df <- NULL
-      land_rv$resolution <- NULL
-      land_rv$right_scan <- NULL
-      land_rv$sigs <- NULL
-      land_rv$study <- NULL
-      land_rv$upload_confirmed <- NULL
-      land_rv$x3p_dims <- NULL
+      cleanup_temp_directory(
+        temp_dir = app_config$file_params$temp_dir,
+        force = TRUE
+      )
+
+      # Reset land reactive values to NULL and run garbage collection ----
+      reset_land_data(land_rv)
 
       # Reset all button states ----
       buttons_rv$reset <- FALSE
@@ -68,6 +55,7 @@ resetServer <- function(id, land_rv, buttons_rv, main_session = NULL) {
       # Clear RGL scene ----
       try({
         rgl::clear3d()
+        rgl::gc3d()
       }, silent = TRUE)
       
       # Switch back to first tab ----

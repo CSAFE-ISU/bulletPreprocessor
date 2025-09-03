@@ -1,3 +1,29 @@
+cleanup_temp_directory <- function(temp_dir, force = FALSE) {
+
+  if (dir.exists(temp_dir)) {
+    # Get all files in temp directory
+    files <- list.files(temp_dir, full.names = TRUE, recursive = TRUE)
+    
+    # Try to remove all files first
+    try({
+      file.remove(files)
+    }, silent = TRUE)
+    
+    # Then remove the directory
+    try({
+      unlink(temp_dir, recursive = TRUE, force = force)
+    }, silent = TRUE)
+    
+    # Wait a moment and try again if directory still exists
+    if (dir.exists(temp_dir)) {
+      Sys.sleep(0.1)
+      try({
+        unlink(temp_dir, recursive = TRUE, force = TRUE)
+      }, silent = TRUE)
+    }
+  }
+}
+
 extract_houston_pattern <- function(filename) {
   # Houston naming patterns
   patterns <- list(
@@ -128,4 +154,25 @@ plot_signal <- function(signal_df) {
     geom_line(aes(y = sig), colour = app_config$display_params$signal_raw_color) +
     theme_bw() +
     labs(y = "value")
+}
+
+reset_land_data <- function(land_rv) {
+  land_rv$barrel <- NULL
+  land_rv$bullet <- NULL
+  land_rv$ccdata <- NULL
+  land_rv$crosscut <- NULL
+  land_rv$df <- NULL
+  land_rv$grooves <- NULL
+  land_rv$land <- NULL
+  land_rv$left_scan <- NULL
+  land_rv$output_df <- NULL
+  land_rv$resolution <- NULL
+  land_rv$right_scan <- NULL
+  land_rv$sigs <- NULL
+  land_rv$study <- NULL
+  land_rv$upload_confirmed <- NULL
+  land_rv$x3p_dims <- NULL
+  
+  # Force garbage collection
+  gc(verbose = FALSE)
 }

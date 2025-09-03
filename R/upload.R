@@ -29,7 +29,10 @@ uploadServer <- function(id, land_rv, buttons_rv) {
     observeEvent(input$upload_button, {
       
       # Delete temp directory if it already exists ----
-      unlink(app_config$file_params$temp_dir, recursive = TRUE)
+      cleanup_temp_directory(
+        temp_dir = app_config$file_params$temp_dir,
+        force = TRUE
+      )
       
       # Create temp directory and save land in it ----
       dir.create(app_config$file_params$temp_dir, showWarnings = FALSE)
@@ -128,17 +131,13 @@ uploadServer <- function(id, land_rv, buttons_rv) {
     observeEvent(input$cancel_upload, {
       
       # Clean up: delete temp directory ----
-      unlink(app_config$file_params$temp_dir, recursive = TRUE)
+      cleanup_temp_directory(
+        temp_dir = app_config$file_params$temp_dir,
+        force = TRUE
+      )
       
-      # Reset the land reactive values ----
-      land_rv$study <- NULL
-      land_rv$df <- NULL
-      land_rv$barrel <- NULL
-      land_rv$bullet <- NULL
-      land_rv$land <- NULL
-      land_rv$resolution <- NULL
-      land_rv$x3p_dims <- NULL
-      land_rv$upload_confirmed <- NULL
+      # Reset land reactive values to NULL and run garbage collection ----
+      reset_land_data(land_rv)
       
       # Close the modal ----
       removeModal()
