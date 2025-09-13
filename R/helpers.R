@@ -29,6 +29,7 @@ extract_houston_pattern <- function(filename) {
   patterns <- list(
     full = "Kit C[A-Z] - K[A-Z] Bullet \\d+ Land [1-6]",
     no_kit = "Kit K[A-Z] - Bullet \\d+ Land [1-6]",
+    no_kit_two_dashes = "Kit K[A-Z] - Bullet \\d+ - Land [1-6]",
     no_barrel = "Kit C[A-Z] - U\\d+ - Land [1-6]"
   )
   
@@ -36,6 +37,8 @@ extract_houston_pattern <- function(filename) {
     return(str_extract(filename, patterns$full))
   } else if (str_detect(filename, patterns$no_kit)) {
     return(str_extract(filename, patterns$no_kit))
+  } else if (str_detect(filename, patterns$no_kit_two_dashes)) {
+    return(str_extract(filename, patterns$no_kit_two_dashes))
   } else if (str_detect(filename, patterns$no_barrel)) {
     return(str_extract(filename, patterns$no_barrel))
   } else {
