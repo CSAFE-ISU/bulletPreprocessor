@@ -24,6 +24,22 @@ cleanup_temp_directory <- function(temp_dir, force = FALSE) {
   }
 }
 
+extract_cts_pattern <- function(filename) {
+  # CTS naming patterns
+  patterns <- list(
+    known = "Barrel \\d+ - Bullet \\d+ - Land [1-6]",
+    unknown = "Barrel Unknown - Bullet [A-Z] - Land [1-6]"
+  )
+  
+  if (str_detect(filename, patterns$known)) {
+    return(str_extract(filename, patterns$known))
+  } else if (str_detect(filename, patterns$unknown)) {
+    return(str_extract(filename, patterns$unknown))
+  } else {
+    stop("Unknown_Pattern")
+  }
+}
+
 extract_houston_pattern <- function(filename) {
   # Houston naming patterns
   patterns <- list(
@@ -46,10 +62,21 @@ extract_houston_pattern <- function(filename) {
   }
 }
 
+#' Get Barrel Name
+#'
+#' @param filename A string. The filename of the x3p file.
+#'
+#' @returns A string
+#' @export
+#'
+#' @examples
+#' get_barrel_name("Barrel 1 - Bullet 1 - Land 1.x3p", study = "CTS")
 get_barrel_name <- function(filename, study) {
   
   # Get barrel name based on bullet study
-  if (stringr::str_detect(tolower(study), "houston")) {
+  if (stringr::str_detect(tolower(study), "cts")) {
+    barrel <- get_cts_barrel_name(filename)
+  } else if (stringr::str_detect(tolower(study), "houston")) {
     barrel <- get_houston_barrel_name(filename)
   } else {
     stop("Barrel name not defined for study yet")
@@ -61,9 +88,21 @@ get_barrel_name <- function(filename, study) {
   return(barrel)
 }
 
+#' Get Barrel Name
+#'
+#' @param filename A string. The filename of the x3p file.
+#'
+#' @returns A string
+#' @export
+#'
+#' @examples
+#' get_bullet_name("Barrel 1 - Bullet 1 - Land 1.x3p", study = "CTS")
+#' get_bullet_name("Barrel Unknown - Bullet A - Land 1.x3p", study = "CTS")
 get_bullet_name <- function(filename, study) {
   # Get bullet name based on bullet study
-  if (stringr::str_detect(tolower(study), "houston")) {
+  if (stringr::str_detect(tolower(study), "cts")) {
+    bullet <- get_cts_bullet_name(filename)
+  } else if (stringr::str_detect(tolower(study), "houston")) {
     bullet <- get_houston_bullet_name(filename)
   } else {
     stop("Bullet name not defined for study yet")
@@ -73,6 +112,48 @@ get_bullet_name <- function(filename, study) {
   bullet <- ifelse(str_detect(bullet, "^Bullet"), bullet, paste("Bullet", bullet))
   
   return(bullet)
+}
+
+#' Get Barrel Name from CTS Bullet
+#'
+#' @param filename A string. The filename of the x3p file.
+#'
+#' @returns A string
+#' @export
+#'
+#' @examples
+#' get_cts_barrel_name("Barrel 1 - Bullet 1 - Land 1.x3p")
+#' get_cts_barrel_name("Barrel Unknown - Bullet A - Land 1.x3p")
+get_cts_barrel_name <- function(filename) {
+  pattern <- extract_cts_pattern(filename = filename)
+  
+  if (str_detect(pattern, "Unknown")) {
+    return("Unknown")
+  } else if (str_detect(pattern, "\\d+")) {
+    return(str_extract(pattern, "\\d+"))
+  } else {
+    stop("Barrel not found in pattern")
+  }
+}
+
+#' Get Bullet Name from CTS Bullet
+#'
+#' @param filename A string. The filename of the x3p file.
+#'
+#' @returns A string
+#' @export
+#'
+#' @examples
+#' get_cts_bullet_name("Barrel 1 - Bullet 1 - Land 1.x3p")
+#' get_cts_bullet_name("Barrel Unknown - Bullet A - Land 1.x3p")
+get_cts_bullet_name <- function(filename) {
+  pattern <- extract_cts_pattern(filename = filename)
+  
+  if (str_detect(pattern, "Bullet [A-Za-z0-9]")) {
+    return(str_extract(pattern, "Bullet [A-Za-z0-9]"))
+  } else {
+    stop("Bullet not found in pattern")
+  }
 }
 
 get_houston_barrel_name <- function(filename) {

@@ -33,8 +33,8 @@ app_config <- list(
   
   # UI configuration
   ui_params = list(
-    studies = c("Hamby 44", "Houston Group 1", "Houston Group 2", "Houston Group 3", "Phoenix"),
-    default_study = "Houston Group 2",
+    studies = c("CTS", "Hamby 44", "Houston Group 1", "Houston Group 2", "Houston Group 3", "Phoenix"),
+    default_study = "CTS",
     slider_step_size = 1,
     slider_large_step = 25
   )

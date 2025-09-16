@@ -53,6 +53,11 @@ uploadServer <- function(id, land_rv, buttons_rv) {
       land_rv$bullet <- get_bullet_name(input$upload_button$name, land_rv$study)
       land_rv$land <- get_land_name(input$upload_button$name)
       land_rv$resolution <- x3ptools::x3p_get_scale(land_rv$df$x3p[[1]])
+      if (land_rv$resolution < .1) {
+        # Convert to microns
+        land_rv$df$x3p[[1]] <- land_rv$df$x3p[[1]] %>% x3p_m_to_mum()
+        land_rv$resolution <- x3ptools::x3p_get_scale(land_rv$df$x3p[[1]])
+      }
       land_rv$x3p_dims <- dim(land_rv$df$x3p[[1]])
       
       # Show confirmation modal with extracted metadata ----
@@ -158,7 +163,7 @@ uploadServer <- function(id, land_rv, buttons_rv) {
           selectInput(
             session$ns("study"), 
             label = "Select bullet study", 
-            choices = c("Hamby 44", "Houston Group 1", "Houston Group 2", "Houston Group 3", "Phoenix"), 
+            choices = app_config$ui_params$studies, 
             selected = app_config$ui_params$default_study),
           "Each bullet study uses a different naming convention. The app will use the naming convention to determine the barrel and bullet names from the filename."
         ),
